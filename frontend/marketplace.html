@@ -1,0 +1,393 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Marketplace — PromptVault</title>
+  <meta name="description" content="Browse 12,000+ premium AI prompts for ChatGPT, Midjourney, Claude. Filter by category, price, rating. Instant delivery." />
+  <link href="https://fonts.googleapis.com/css2?family=Syne:wght@400;600;700;800&family=DM+Sans:wght@300;400;500;600&display=swap" rel="stylesheet" />
+  <script src="https://cdn.tailwindcss.com"></script>
+  <link rel="stylesheet" href="css/style.css" />
+</head>
+<body class="bg-[#0F0F23] text-[#F8FAFC]">
+
+<!-- Page Loader -->
+<div class="page-loader" id="pageLoader">
+  <div class="page-loader-logo">Prompt<span class="text-[#6366F1]">Vault</span></div>
+  <div class="page-loader-bar"><div class="page-loader-progress"></div></div>
+</div>
+
+<!-- NAVBAR (same as index) -->
+<nav id="navbar" class="glass-nav fixed top-0 w-full z-50">
+  <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+    <div class="flex items-center justify-between h-16">
+      <a href="index.html" class="flex items-center gap-3">
+        <div class="w-9 h-9 rounded-xl bg-gradient-to-br from-[#6366F1] to-[#A5B4FC] flex items-center justify-center">
+          <svg class="w-5 h-5 text-white" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 10V3L4 14h7v7l9-11h-7z"/></svg>
+        </div>
+        <span class="font-display font-800 text-xl">Prompt<span class="text-[#6366F1]">Vault</span></span>
+      </a>
+      <div class="hidden lg:flex items-center gap-6">
+        <a href="marketplace.html" class="text-sm font-semibold text-[#6366F1]">Marketplace</a>
+        <a href="seller-dashboard.html" class="text-sm font-medium text-slate-300 hover:text-white">Sell Prompts</a>
+      </div>
+      <div class="flex items-center gap-3">
+        <button class="glass-btn text-xs px-3 py-1.5 rounded-lg font-medium">EN / বাং</button>
+        <a href="login.html" class="glass-btn text-sm px-4 py-2 rounded-xl font-medium">Login</a>
+        <a href="signup.html" class="btn-primary text-sm px-5 py-2 rounded-xl font-semibold">Sign Up</a>
+      </div>
+    </div>
+  </div>
+</nav>
+
+<!-- MARKETPLACE HERO -->
+<section class="pt-28 pb-8 relative overflow-hidden">
+  <div class="orb orb-1" style="opacity:0.15"></div>
+  <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
+    <h1 class="font-display font-800 text-4xl lg:text-5xl mb-4 animate-fade-up">
+      Explore <span class="gradient-text">12,000+ Prompts</span>
+    </h1>
+    <p class="text-slate-400 text-lg mb-8 animate-fade-up" style="animation-delay:0.1s">Vetted, tested, ready to use. Find your perfect AI prompt.</p>
+
+    <!-- Search Bar -->
+    <div class="search-bar-wrapper animate-fade-up" style="animation-delay:0.2s">
+      <svg class="search-icon" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z"/></svg>
+      <input type="text" class="search-input" id="searchInput" placeholder="Search prompts, categories, creators..." />
+      <span class="search-kbd">⌘K</span>
+    </div>
+
+    <!-- Quick Filter Tags -->
+    <div class="flex flex-wrap justify-center gap-2 mt-6 animate-fade-up" style="animation-delay:0.3s">
+      <button class="filter-tag active" onclick="filterByTag(this,'all')">All</button>
+      <button class="filter-tag" onclick="filterByTag(this,'chatgpt')">🤖 ChatGPT</button>
+      <button class="filter-tag" onclick="filterByTag(this,'midjourney')">🎨 Midjourney</button>
+      <button class="filter-tag" onclick="filterByTag(this,'coding')">💻 Coding</button>
+      <button class="filter-tag" onclick="filterByTag(this,'marketing')">📈 Marketing</button>
+      <button class="filter-tag" onclick="filterByTag(this,'writing')">✍️ Writing</button>
+      <button class="filter-tag" onclick="filterByTag(this,'business')">💼 Business</button>
+    </div>
+  </div>
+</section>
+
+<!-- MAIN CONTENT -->
+<section class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8 pb-20">
+  <div class="flex gap-8">
+
+    <!-- ─── SIDEBAR FILTERS ────────────────────────────────── -->
+    <aside class="hidden lg:block w-64 flex-shrink-0">
+      <div class="filter-sidebar">
+        <div class="flex items-center justify-between mb-6">
+          <h3 class="font-display font-700 text-base">Filters</h3>
+          <button onclick="clearFilters()" class="text-xs text-[#6366F1] hover:text-[#A5B4FC]">Clear all</button>
+        </div>
+
+        <!-- AI Model -->
+        <div class="mb-6">
+          <div class="filter-section-title">AI Model</div>
+          <div class="flex flex-col gap-2">
+            <label class="flex items-center gap-2 cursor-pointer text-sm text-slate-300 hover:text-white">
+              <input type="checkbox" class="filter-check accent-[#6366F1]" value="chatgpt" onchange="applyFilters()"> ChatGPT / GPT-4
+            </label>
+            <label class="flex items-center gap-2 cursor-pointer text-sm text-slate-300 hover:text-white">
+              <input type="checkbox" class="filter-check accent-[#6366F1]" value="midjourney" onchange="applyFilters()"> Midjourney
+            </label>
+            <label class="flex items-center gap-2 cursor-pointer text-sm text-slate-300 hover:text-white">
+              <input type="checkbox" class="filter-check accent-[#6366F1]" value="claude" onchange="applyFilters()"> Claude
+            </label>
+            <label class="flex items-center gap-2 cursor-pointer text-sm text-slate-300 hover:text-white">
+              <input type="checkbox" class="filter-check accent-[#6366F1]" value="stable-diffusion" onchange="applyFilters()"> Stable Diffusion
+            </label>
+            <label class="flex items-center gap-2 cursor-pointer text-sm text-slate-300 hover:text-white">
+              <input type="checkbox" class="filter-check accent-[#6366F1]" value="gemini" onchange="applyFilters()"> Gemini
+            </label>
+          </div>
+        </div>
+
+        <!-- Price Range -->
+        <div class="mb-6">
+          <div class="filter-section-title">Price Range</div>
+          <div class="flex justify-between text-sm text-slate-400 mb-2">
+            <span>$<span id="priceMin">0</span></span>
+            <span>$<span id="priceMax">20</span></span>
+          </div>
+          <input type="range" class="price-slider" id="priceSlider" min="0" max="20" value="20" step="1" oninput="updatePrice(this.value)" />
+        </div>
+
+        <!-- Rating -->
+        <div class="mb-6">
+          <div class="filter-section-title">Minimum Rating</div>
+          <div class="flex flex-col gap-2">
+            <label class="flex items-center gap-2 cursor-pointer">
+              <input type="radio" name="rating" value="4.5" class="accent-[#6366F1]" onchange="applyFilters()">
+              <span class="text-yellow-400 text-sm">★★★★★</span> <span class="text-slate-400 text-sm">4.5+</span>
+            </label>
+            <label class="flex items-center gap-2 cursor-pointer">
+              <input type="radio" name="rating" value="4.0" class="accent-[#6366F1]" onchange="applyFilters()">
+              <span class="text-yellow-400 text-sm">★★★★☆</span> <span class="text-slate-400 text-sm">4.0+</span>
+            </label>
+            <label class="flex items-center gap-2 cursor-pointer">
+              <input type="radio" name="rating" value="3.0" class="accent-[#6366F1]" onchange="applyFilters()">
+              <span class="text-yellow-400 text-sm">★★★☆☆</span> <span class="text-slate-400 text-sm">3.0+</span>
+            </label>
+          </div>
+        </div>
+
+        <!-- Sort -->
+        <div>
+          <div class="filter-section-title">Sort By</div>
+          <select class="form-input text-sm" id="sortSelect" onchange="applyFilters()">
+            <option value="trending">🔥 Trending</option>
+            <option value="newest">🆕 Newest</option>
+            <option value="price-low">💰 Price: Low to High</option>
+            <option value="price-high">💰 Price: High to Low</option>
+            <option value="rating">⭐ Highest Rated</option>
+            <option value="bestseller">🏆 Best Sellers</option>
+          </select>
+        </div>
+      </div>
+    </aside>
+
+    <!-- ─── MAIN GRID ──────────────────────────────────────── -->
+    <div class="flex-1 min-w-0">
+      <!-- Results Header -->
+      <div class="flex items-center justify-between mb-6">
+        <div>
+          <span class="text-slate-400 text-sm" id="resultsCount">Showing <strong class="text-white">48</strong> of <strong class="text-white">12,450</strong> prompts</span>
+        </div>
+        <div class="flex items-center gap-3">
+          <!-- Mobile Filter -->
+          <button class="lg:hidden glass-btn text-sm px-4 py-2 rounded-xl" onclick="toggleMobileFilters()">
+            ⚙️ Filters
+          </button>
+          <!-- View Toggle -->
+          <div class="flex gap-1 glass-card p-1 rounded-lg">
+            <button class="w-8 h-8 rounded flex items-center justify-center text-white bg-[#6366F1]/20" id="gridViewBtn" onclick="setView('grid')">⊞</button>
+            <button class="w-8 h-8 rounded flex items-center justify-center text-slate-400" id="listViewBtn" onclick="setView('list')">☰</button>
+          </div>
+        </div>
+      </div>
+
+      <!-- SORT TABS (Mobile) -->
+      <div class="flex gap-2 mb-6 overflow-x-auto no-scrollbar lg:hidden">
+        <button class="filter-tag active whitespace-nowrap" onclick="filterByTag(this,'all')">All</button>
+        <button class="filter-tag whitespace-nowrap" onclick="filterByTag(this,'chatgpt')">ChatGPT</button>
+        <button class="filter-tag whitespace-nowrap" onclick="filterByTag(this,'midjourney')">Midjourney</button>
+        <button class="filter-tag whitespace-nowrap" onclick="filterByTag(this,'coding')">Coding</button>
+        <button class="filter-tag whitespace-nowrap" onclick="filterByTag(this,'marketing')">Marketing</button>
+      </div>
+
+      <!-- Prompts Grid -->
+      <div id="promptsGrid" class="grid grid-cols-1 sm:grid-cols-2 xl:grid-cols-3 gap-5">
+        <!-- Populated by JS -->
+      </div>
+
+      <!-- Load More -->
+      <div class="text-center mt-12" id="loadMoreWrapper">
+        <button id="loadMoreBtn" class="btn-secondary-lg" onclick="loadMore()">
+          <span id="loadMoreText">Load More Prompts</span>
+          <div class="spinner hidden ml-2 inline-block" id="loadSpinner"></div>
+        </button>
+        <p class="text-slate-500 text-sm mt-3">Showing 48 of 12,450 prompts</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- Toast -->
+<div id="toast" class="toast hidden"><span id="toastMsg"></span></div>
+
+<script>
+// ─── SAMPLE PROMPT DATA ──────────────────────────────────────
+const allPrompts = [
+  { id:1, title:'Cold Email Generator', category:'ChatGPT', tag:'chatgpt', price:9.99, rating:4.9, reviews:247, badge:'🔥 Hot', color:'#6366F1', seller:'Alex Chen', desc:'Generate personalized cold emails that convert at 3x industry average.' },
+  { id:2, title:'Cinematic Portrait Master', category:'Midjourney', tag:'midjourney', price:14.99, rating:4.8, reviews:189, badge:'⭐ Top Rated', color:'#10B981', seller:'Yuki Tanaka', desc:'Stunning cinematic portraits with Hollywood-grade lighting & depth.' },
+  { id:3, title:'Full-Stack Dev Assistant', category:'Claude', tag:'claude', price:19.99, rating:4.7, reviews:94, badge:'🆕 New', color:'#F59E0B', seller:'Marcus Webb', desc:'Architect, code & debug full-stack apps 10x faster.' },
+  { id:4, title:'Viral Twitter Thread Writer', category:'ChatGPT', tag:'chatgpt', price:7.99, rating:5.0, reviews:312, badge:'💎 Premium', color:'#EC4899', seller:'Sofia Reyes', desc:'Turn any idea into a viral 12-tweet thread with hooks & CTAs.' },
+  { id:5, title:'Startup Pitch Deck Builder', category:'GPT-4', tag:'chatgpt', price:12.99, rating:4.9, reviews:156, badge:'🤖 AI Pick', color:'#06B6D4', seller:'Alex Chen', desc:'Investor-ready pitch decks with structured storytelling.' },
+  { id:6, title:'SEO Blog Writer Pro', category:'ChatGPT', tag:'chatgpt', price:8.99, rating:4.8, reviews:203, badge:'📈 Trending', color:'#8B5CF6', seller:'Priya Sharma', desc:'Write SEO-optimized blog posts that rank on Google page 1.' },
+  { id:7, title:'YouTube Script Creator', category:'GPT-4', tag:'chatgpt', price:11.99, rating:4.6, reviews:118, badge:'🎬 Popular', color:'#EF4444', seller:'Marcus Webb', desc:'Create engaging YouTube scripts with hooks & retention loops.' },
+  { id:8, title:'Product Description Wizard', category:'ChatGPT', tag:'chatgpt', price:6.99, rating:4.7, reviews:164, badge:'🛒 eComm', color:'#059669', seller:'Priya Sharma', desc:'Convert-ready product descriptions for e-commerce stores.' },
+  { id:9, title:'Anime Character Designer', category:'Midjourney', tag:'midjourney', price:9.99, rating:4.9, reviews:231, badge:'🎌 Anime', color:'#F472B6', seller:'Yuki Tanaka', desc:'Professional-grade anime character sheets with multiple poses.' },
+  { id:10, title:'LinkedIn Post Optimizer', category:'ChatGPT', tag:'chatgpt', price:5.99, rating:4.5, reviews:87, badge:'💼 B2B', color:'#0EA5E9', seller:'Sofia Reyes', desc:'Craft LinkedIn posts that 3x your engagement rate.' },
+  { id:11, title:'React Component Builder', category:'Claude', tag:'claude', price:15.99, rating:4.8, reviews:142, badge:'⚛️ React', color:'#61DAFB', seller:'Alex Chen', desc:'Generate production-ready React components with TypeScript.' },
+  { id:12, title:'Fantasy World Generator', category:'Midjourney', tag:'midjourney', price:12.99, rating:4.7, reviews:198, badge:'🐉 Fantasy', color:'#7C3AED', seller:'Marcus Webb', desc:'Build immersive fantasy worlds with consistent lore & visuals.' },
+  { id:13, title:'Email Subject Line A/B Tester', category:'GPT-4', tag:'chatgpt', price:4.99, rating:4.6, reviews:93, badge:'📧 Email', color:'#F59E0B', seller:'Priya Sharma', desc:'Generate 20 subject line variants to maximize open rates.' },
+  { id:14, title:'Stable Diffusion Skin Render', category:'Stable Diffusion', tag:'stable-diffusion', price:8.99, rating:4.4, reviews:76, badge:'🖼️ SD', color:'#6366F1', seller:'Yuki Tanaka', desc:'Hyper-realistic skin textures for character renders.' },
+  { id:15, title:'Business Plan Framework', category:'GPT-4', tag:'chatgpt', price:18.99, rating:4.9, reviews:213, badge:'📊 Business', color:'#10B981', seller:'Alex Chen', desc:'Complete business plan with financial projections & market analysis.' },
+  { id:16, title:'Social Media Calendar AI', category:'ChatGPT', tag:'chatgpt', price:9.99, rating:4.7, reviews:134, badge:'📅 Social', color:'#EC4899', seller:'Sofia Reyes', desc:'Auto-generate 30-day social media calendars with content ideas.' },
+];
+
+let displayedPrompts = [...allPrompts];
+let displayCount = 8;
+let currentView = 'grid';
+let activeTag = 'all';
+
+// ─── RENDER ──────────────────────────────────────────────────
+function renderPrompts(prompts) {
+  const grid = document.getElementById('promptsGrid');
+  if (!prompts.length) {
+    grid.innerHTML = `<div class="col-span-3 text-center py-20 text-slate-500">
+      <div class="text-5xl mb-4">🔍</div>
+      <div class="text-lg font-semibold">No prompts found</div>
+      <div class="text-sm mt-2">Try different filters or keywords</div>
+    </div>`;
+    return;
+  }
+  const slice = prompts.slice(0, displayCount);
+  grid.innerHTML = slice.map((p, i) => `
+    <div class="prompt-card visible" style="animation-delay:${i*0.05}s; transition-delay:${i*0.03}s"
+         onclick="window.location='prompt-detail.html?id=${p.id}'"
+         itemscope itemtype="https://schema.org/Product">
+      <div class="flex items-center justify-between">
+        <div class="prompt-card-badge" style="background:${p.color}22;color:${p.color}">${p.badge}</div>
+        <button class="glass-icon-btn w-7 h-7 rounded-lg text-xs" onclick="event.stopPropagation();toggleWishlist(${p.id},this)" title="Add to wishlist">♡</button>
+      </div>
+      <div class="prompt-card-category">${p.category} · by ${p.seller}</div>
+      <h3 class="prompt-card-title" itemprop="name">${p.title}</h3>
+      <p class="text-slate-500 text-xs leading-relaxed truncate-2">${p.desc}</p>
+      <div class="prompt-card-footer">
+        <div class="prompt-card-price" itemprop="price">$${p.price}</div>
+        <div class="prompt-card-rating">
+          <span class="text-yellow-400 text-sm">★</span>
+          <span class="text-sm font-medium">${p.rating}</span>
+          <span class="text-slate-500 text-xs">(${p.reviews})</span>
+        </div>
+      </div>
+      <button class="prompt-card-buy" onclick="event.stopPropagation();addToCart(${p.id},'${p.title}',${p.price})" style="--btn-accent:${p.color}">
+        + Add to Cart
+      </button>
+    </div>
+  `).join('');
+  document.getElementById('resultsCount').innerHTML = `Showing <strong class="text-white">${Math.min(displayCount, prompts.length)}</strong> of <strong class="text-white">${prompts.length}</strong> prompts`;
+}
+
+// ─── FILTER & SEARCH ─────────────────────────────────────────
+function filterByTag(btn, tag) {
+  document.querySelectorAll('.filter-tag').forEach(b => b.classList.remove('active'));
+  btn.classList.add('active');
+  activeTag = tag;
+  applyFilters();
+}
+
+function applyFilters() {
+  let filtered = [...allPrompts];
+  if (activeTag !== 'all') filtered = filtered.filter(p => p.tag === activeTag);
+  const searchVal = document.getElementById('searchInput').value.toLowerCase();
+  if (searchVal) filtered = filtered.filter(p => p.title.toLowerCase().includes(searchVal) || p.desc.toLowerCase().includes(searchVal) || p.category.toLowerCase().includes(searchVal));
+  const maxPrice = parseInt(document.getElementById('priceSlider').value);
+  filtered = filtered.filter(p => p.price <= maxPrice);
+  const ratingEl = document.querySelector('input[name="rating"]:checked');
+  if (ratingEl) filtered = filtered.filter(p => p.rating >= parseFloat(ratingEl.value));
+  const sort = document.getElementById('sortSelect').value;
+  if (sort === 'price-low') filtered.sort((a,b) => a.price - b.price);
+  if (sort === 'price-high') filtered.sort((a,b) => b.price - a.price);
+  if (sort === 'rating') filtered.sort((a,b) => b.rating - a.rating);
+  if (sort === 'bestseller') filtered.sort((a,b) => b.reviews - a.reviews);
+  displayedPrompts = filtered;
+  displayCount = 8;
+  renderPrompts(displayedPrompts);
+}
+
+function updatePrice(val) {
+  document.getElementById('priceMax').textContent = val;
+  applyFilters();
+}
+
+function clearFilters() {
+  document.querySelectorAll('.filter-check').forEach(c => c.checked = false);
+  document.querySelectorAll('input[name="rating"]').forEach(r => r.checked = false);
+  document.getElementById('priceSlider').value = 20;
+  document.getElementById('priceMax').textContent = '20';
+  document.getElementById('searchInput').value = '';
+  document.getElementById('sortSelect').value = 'trending';
+  activeTag = 'all';
+  document.querySelectorAll('.filter-tag').forEach((b,i) => b.classList.toggle('active', i===0));
+  displayedPrompts = [...allPrompts];
+  displayCount = 8;
+  renderPrompts(displayedPrompts);
+  showToast('Filters cleared');
+}
+
+function loadMore() {
+  const btn = document.getElementById('loadMoreBtn');
+  const spinner = document.getElementById('loadSpinner');
+  const txt = document.getElementById('loadMoreText');
+  txt.textContent = 'Loading...';
+  spinner.classList.remove('hidden');
+  btn.disabled = true;
+  setTimeout(() => {
+    displayCount = Math.min(displayCount + 8, displayedPrompts.length);
+    renderPrompts(displayedPrompts);
+    txt.textContent = 'Load More Prompts';
+    spinner.classList.add('hidden');
+    btn.disabled = false;
+    if (displayCount >= displayedPrompts.length) {
+      document.getElementById('loadMoreWrapper').style.display = 'none';
+    }
+  }, 800);
+}
+
+function setView(view) {
+  currentView = view;
+  const grid = document.getElementById('promptsGrid');
+  if (view === 'list') {
+    grid.className = 'flex flex-col gap-4';
+    document.getElementById('gridViewBtn').className = 'w-8 h-8 rounded flex items-center justify-center text-slate-400';
+    document.getElementById('listViewBtn').className = 'w-8 h-8 rounded flex items-center justify-center text-white bg-[#6366F1]/20';
+  } else {
+    grid.className = 'grid grid-cols-1 sm:grid-cols-2 xl:grid-cols-3 gap-5';
+    document.getElementById('gridViewBtn').className = 'w-8 h-8 rounded flex items-center justify-center text-white bg-[#6366F1]/20';
+    document.getElementById('listViewBtn').className = 'w-8 h-8 rounded flex items-center justify-center text-slate-400';
+  }
+}
+
+function toggleWishlist(id, btn) {
+  btn.textContent = btn.textContent === '♡' ? '♥' : '♡';
+  btn.style.color = btn.textContent === '♥' ? '#EF4444' : '';
+  showToast(btn.textContent === '♥' ? '❤️ Added to wishlist!' : 'Removed from wishlist');
+}
+
+// ─── CART ────────────────────────────────────────────────────
+let cart = JSON.parse(localStorage.getItem('pv_cart')||'[]');
+function addToCart(id, title, price) {
+  if (cart.find(i=>i.id===id)) { showToast('Already in cart!'); return; }
+  cart.push({id,title,price}); localStorage.setItem('pv_cart',JSON.stringify(cart));
+  showToast(`✓ "${title}" added to cart`);
+}
+
+function showToast(msg) {
+  const t = document.getElementById('toast'); document.getElementById('toastMsg').textContent = msg;
+  t.className = 'toast success'; t.classList.remove('hidden'); setTimeout(()=>t.classList.add('hidden'),3000);
+}
+
+// ─── SEARCH ──────────────────────────────────────────────────
+let searchTimer;
+document.addEventListener('DOMContentLoaded', () => {
+  renderPrompts(displayedPrompts);
+  document.getElementById('searchInput').addEventListener('input', () => {
+    clearTimeout(searchTimer);
+    searchTimer = setTimeout(applyFilters, 300);
+  });
+
+  // Parse URL params
+  const params = new URLSearchParams(window.location.search);
+  const cat = params.get('cat');
+  if (cat) {
+    const btn = document.querySelector(`.filter-tag[onclick*="${cat}"]`);
+    if (btn) filterByTag(btn, cat);
+  }
+
+  // Remove loader
+  setTimeout(() => {
+    const loader = document.getElementById('pageLoader');
+    if (loader) { loader.style.opacity='0'; loader.style.transition='opacity 0.4s'; setTimeout(()=>loader.remove(),400); }
+  }, 800);
+
+  // Scroll nav
+  window.addEventListener('scroll', () => {
+    document.getElementById('navbar').classList.toggle('scrolled', window.scrollY > 50);
+  });
+});
+</script>
+</body>
+</html>
