@@ -1,0 +1,58 @@
+version: '3.8'
+
+services:
+  mysql:
+    image: mysql:8.0
+    container_name: promptvault-mysql
+    restart: unless-stopped
+    environment:
+      MYSQL_ROOT_PASSWORD: ${DB_PASS:-password}
+      MYSQL_DATABASE: marketplace
+      MYSQL_USER: ${DB_USER:-pvuser}
+      MYSQL_PASSWORD: ${DB_PASS:-password}
+    ports:
+      - "3306:3306"
+    volumes:
+      - mysql_data:/var/lib/mysql
+      - ./database/schema.sql:/docker-entrypoint-initdb.d/01-schema.sql
+    healthcheck:
+      test: ["CMD","mysqladmin","ping","-h","localhost"]
+      timeout: 20s
+      retries: 10
+
+  backend:
+    build:
+      context: ./backend
+      dockerfile: Dockerfile
+    container_name: promptvault-api
+    restart: unless-stopped
+    depends_on:
+      mysql:
+        condition: service_healthy
+    ports:
+      - "8080:8080"
+    environment:
+      DB_USER: ${DB_USER:-pvuser}
+      DB_PASS: ${DB_PASS:-password}
+      JWT_SECRET: ${JWT_SECRET:-PromptVaultSuperSecretKeyForJWT2025!!}
+      STRIPE_SECRET_KEY: ${STRIPE_SECRET_KEY:-sk_test_placeholder}
+      STRIPE_WEBHOOK_SECRET: ${STRIPE_WEBHOOK_SECRET:-whsec_placeholder}
+    volumes:
+      - uploads_data:/app/uploads
+
+  nginx:
+    image: nginx:alpine
+    container_name: promptvault-nginx
+    restart: unless-stopped
+    depends_on:
+      - backend
+    ports:
+      - "80:80"
+      - "443:443"
+    volumes:
+      - ./frontend:/usr/share/nginx/html
+      - ./deployment/nginx.conf:/etc/nginx/conf.d/default.conf
+
+volumes:
+  mysql_data:
+  uploads_data:
