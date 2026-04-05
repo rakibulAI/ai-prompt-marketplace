@@ -1,0 +1,131 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Login — PromptVault</title>
+  <link href="https://fonts.googleapis.com/css2?family=Syne:wght@400;600;700;800&family=DM+Sans:wght@300;400;500;600&display=swap" rel="stylesheet" />
+  <script src="https://cdn.tailwindcss.com"></script>
+  <link rel="stylesheet" href="css/style.css" />
+</head>
+<body class="bg-[#0F0F23] text-[#F8FAFC]">
+<div class="auth-container">
+  <div class="orb orb-1" style="opacity:0.2"></div>
+  <div class="orb orb-2" style="opacity:0.15"></div>
+  <div class="grid-overlay"></div>
+
+  <div class="auth-card animate-fade-up">
+    <!-- Logo -->
+    <div class="text-center mb-8">
+      <a href="index.html" class="inline-flex items-center gap-3 mb-6">
+        <div class="w-10 h-10 rounded-xl bg-gradient-to-br from-[#6366F1] to-[#A5B4FC] flex items-center justify-center">
+          <svg class="w-6 h-6 text-white" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 10V3L4 14h7v7l9-11h-7z"/></svg>
+        </div>
+        <span class="font-display font-800 text-xl">Prompt<span class="text-[#6366F1]">Vault</span></span>
+      </a>
+      <h1 class="font-display font-800 text-2xl">Welcome back</h1>
+      <p class="text-slate-400 text-sm mt-1">Sign in to your account</p>
+    </div>
+
+    <!-- Social Login -->
+    <div class="grid grid-cols-2 gap-3 mb-5">
+      <button class="glass-btn flex items-center justify-center gap-2 py-3 rounded-xl text-sm font-medium hover:text-white" onclick="socialLogin('google')">
+        <span>🌐</span> Google
+      </button>
+      <button class="glass-btn flex items-center justify-center gap-2 py-3 rounded-xl text-sm font-medium hover:text-white" onclick="socialLogin('github')">
+        <span>🐙</span> GitHub
+      </button>
+    </div>
+
+    <div class="divider">or continue with email</div>
+
+    <form id="loginForm" onsubmit="handleLogin(event)" novalidate>
+      <div class="form-group">
+        <label class="form-label">Email Address</label>
+        <input class="form-input" type="email" id="email" placeholder="you@example.com" autocomplete="email" />
+        <div class="form-error hidden" id="emailError">Please enter a valid email</div>
+      </div>
+      <div class="form-group">
+        <label class="form-label" style="display:flex;justify-content:space-between">
+          <span>Password</span>
+          <a href="#" class="text-[#6366F1] hover:text-[#A5B4FC] text-xs normal-case font-normal" onclick="forgotPassword()">Forgot password?</a>
+        </label>
+        <div class="relative">
+          <input class="form-input pr-12" type="password" id="password" placeholder="••••••••" autocomplete="current-password" />
+          <button type="button" class="absolute right-3 top-1/2 -translate-y-1/2 text-slate-400 hover:text-white text-sm transition-colors" onclick="togglePwd('password',this)">👁</button>
+        </div>
+        <div class="form-error hidden" id="pwdError">Password must be at least 8 characters</div>
+      </div>
+
+      <label class="flex items-center gap-2 mb-5 cursor-pointer text-sm text-slate-400">
+        <input type="checkbox" class="accent-[#6366F1]" id="rememberMe" /> Remember me for 30 days
+      </label>
+
+      <button type="submit" class="btn-primary w-full py-3.5 rounded-xl font-bold text-base" id="loginBtn">
+        <span id="loginBtnText">Sign In</span>
+        <div class="spinner hidden inline-block ml-2" id="loginSpinner"></div>
+      </button>
+    </form>
+
+    <p class="text-center text-slate-400 text-sm mt-6">
+      Don't have an account? <a href="signup.html" class="text-[#6366F1] hover:text-[#A5B4FC] font-semibold">Sign up free →</a>
+    </p>
+  </div>
+</div>
+
+<div id="toast" class="toast hidden"><span id="toastMsg"></span></div>
+
+<script>
+function handleLogin(e) {
+  e.preventDefault();
+  const email = document.getElementById('email').value.trim();
+  const pwd = document.getElementById('password').value;
+  let valid = true;
+  document.getElementById('emailError').classList.add('hidden');
+  document.getElementById('pwdError').classList.add('hidden');
+  document.getElementById('email').classList.remove('error');
+  document.getElementById('password').classList.remove('error');
+  if (!email || !/\S+@\S+\.\S+/.test(email)) {
+    document.getElementById('emailError').classList.remove('hidden');
+    document.getElementById('email').classList.add('error');
+    valid = false;
+  }
+  if (pwd.length < 8) {
+    document.getElementById('pwdError').classList.remove('hidden');
+    document.getElementById('password').classList.add('error');
+    valid = false;
+  }
+  if (!valid) return;
+  const btn = document.getElementById('loginBtn');
+  const txt = document.getElementById('loginBtnText');
+  const spin = document.getElementById('loginSpinner');
+  txt.textContent = 'Signing in...'; spin.classList.remove('hidden'); btn.disabled = true;
+  setTimeout(() => {
+    localStorage.setItem('pv_user', JSON.stringify({ email, name: 'Alex Chen', role: 'seller', balance: 25 }));
+    localStorage.setItem('pv_token', 'mock_jwt_token_' + Date.now());
+    showToast('✓ Welcome back!');
+    setTimeout(() => window.location = 'seller-dashboard.html', 800);
+  }, 1200);
+}
+
+function togglePwd(id, btn) {
+  const input = document.getElementById(id);
+  input.type = input.type === 'password' ? 'text' : 'password';
+  btn.textContent = input.type === 'password' ? '👁' : '🙈';
+}
+
+function forgotPassword() {
+  const email = document.getElementById('email').value.trim();
+  if (!email) { showToast('Enter your email first', 'error'); return; }
+  showToast('📧 Reset link sent to ' + email);
+}
+
+function socialLogin(provider) { showToast(`Connecting to ${provider}...`); }
+
+function showToast(msg, type='success') {
+  const t = document.getElementById('toast'); document.getElementById('toastMsg').textContent = msg;
+  t.className = `toast ${type}`; t.classList.remove('hidden'); setTimeout(()=>t.classList.add('hidden'),3000);
+}
+</script>
+</body>
+</html>

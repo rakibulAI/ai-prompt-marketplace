@@ -1,0 +1,195 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Sign Up — PromptVault</title>
+  <link href="https://fonts.googleapis.com/css2?family=Syne:wght@400;600;700;800&family=DM+Sans:wght@300;400;500;600&display=swap" rel="stylesheet" />
+  <script src="https://cdn.tailwindcss.com"></script>
+  <link rel="stylesheet" href="css/style.css" />
+</head>
+<body class="bg-[#0F0F23] text-[#F8FAFC]">
+<div class="auth-container">
+  <div class="orb orb-1" style="opacity:0.2"></div>
+  <div class="orb orb-2" style="opacity:0.15"></div>
+  <div class="grid-overlay"></div>
+
+  <div class="auth-card animate-fade-up" style="max-width:500px">
+    <div class="text-center mb-6">
+      <a href="index.html" class="inline-flex items-center gap-3 mb-5">
+        <div class="w-10 h-10 rounded-xl bg-gradient-to-br from-[#6366F1] to-[#A5B4FC] flex items-center justify-center">
+          <svg class="w-6 h-6 text-white" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 10V3L4 14h7v7l9-11h-7z"/></svg>
+        </div>
+        <span class="font-display font-800 text-xl">Prompt<span class="text-[#6366F1]">Vault</span></span>
+      </a>
+      <h1 class="font-display font-800 text-2xl">Create your account</h1>
+      <p class="text-slate-400 text-sm mt-1">Join 32,000+ creators & buyers today — it's free</p>
+    </div>
+
+    <!-- Role Selection -->
+    <div class="mb-5">
+      <div class="form-label mb-2">I want to...</div>
+      <div class="grid grid-cols-2 gap-3">
+        <button class="role-btn active" id="rolebuyer" onclick="selectRole('buyer')">
+          <span class="text-xl mb-1 block">🛒</span>
+          <span class="font-semibold text-sm">Buy Prompts</span>
+          <span class="text-xs text-slate-400 block">Browse & purchase AI prompts</span>
+        </button>
+        <button class="role-btn" id="roleseller" onclick="selectRole('seller')">
+          <span class="text-xl mb-1 block">💰</span>
+          <span class="font-semibold text-sm">Sell Prompts</span>
+          <span class="text-xs text-slate-400 block">Upload & earn passive income</span>
+        </button>
+      </div>
+    </div>
+    <input type="hidden" id="selectedRole" value="buyer" />
+
+    <!-- Social Signup -->
+    <div class="grid grid-cols-2 gap-3 mb-4">
+      <button class="glass-btn flex items-center justify-center gap-2 py-2.5 rounded-xl text-sm font-medium hover:text-white">🌐 Google</button>
+      <button class="glass-btn flex items-center justify-center gap-2 py-2.5 rounded-xl text-sm font-medium hover:text-white">🐙 GitHub</button>
+    </div>
+
+    <div class="divider">or with email</div>
+
+    <form id="signupForm" onsubmit="handleSignup(event)" novalidate>
+      <div class="grid grid-cols-2 gap-3">
+        <div class="form-group">
+          <label class="form-label">First Name</label>
+          <input class="form-input" type="text" id="firstName" placeholder="Alex" />
+        </div>
+        <div class="form-group">
+          <label class="form-label">Last Name</label>
+          <input class="form-input" type="text" id="lastName" placeholder="Chen" />
+        </div>
+      </div>
+      <div class="form-group">
+        <label class="form-label">Email Address</label>
+        <input class="form-input" type="email" id="email" placeholder="you@example.com" />
+        <div class="form-error hidden" id="emailError">Please enter a valid email</div>
+      </div>
+      <div class="form-group">
+        <label class="form-label">Password</label>
+        <div class="relative">
+          <input class="form-input pr-12" type="password" id="password" placeholder="Min. 8 characters" oninput="checkStrength(this.value)" />
+          <button type="button" class="absolute right-3 top-1/2 -translate-y-1/2 text-slate-400 hover:text-white text-sm" onclick="togglePwd('password',this)">👁</button>
+        </div>
+        <!-- Strength Meter -->
+        <div class="mt-2 flex gap-1">
+          <div class="h-1 flex-1 rounded-full bg-white/08" id="s1"></div>
+          <div class="h-1 flex-1 rounded-full bg-white/08" id="s2"></div>
+          <div class="h-1 flex-1 rounded-full bg-white/08" id="s3"></div>
+          <div class="h-1 flex-1 rounded-full bg-white/08" id="s4"></div>
+        </div>
+        <div class="text-xs text-slate-500 mt-1" id="strengthLabel">Use 8+ chars, numbers, and symbols</div>
+      </div>
+      <div class="form-group">
+        <label class="form-label">Confirm Password</label>
+        <input class="form-input" type="password" id="confirmPwd" placeholder="Repeat password" />
+        <div class="form-error hidden" id="pwdError">Passwords do not match</div>
+      </div>
+
+      <!-- Referral Code -->
+      <div class="form-group">
+        <label class="form-label" style="display:flex;justify-content:space-between">
+          Referral Code <span class="text-slate-500 font-normal normal-case text-xs">(optional — earn $5 bonus)</span>
+        </label>
+        <input class="form-input" type="text" id="refCode" placeholder="e.g. USER123" />
+      </div>
+
+      <label class="flex items-start gap-2 mb-5 cursor-pointer">
+        <input type="checkbox" class="accent-[#6366F1] mt-0.5 flex-shrink-0" id="terms" />
+        <span class="text-xs text-slate-400">I agree to PromptVault's <a href="#" class="text-[#6366F1]">Terms of Service</a> and <a href="#" class="text-[#6366F1]">Privacy Policy</a></span>
+      </label>
+
+      <button type="submit" class="btn-primary w-full py-3.5 rounded-xl font-bold text-base">
+        <span id="signupBtnText">Create Account — Free</span>
+        <div class="spinner hidden inline-block ml-2" id="signupSpinner"></div>
+      </button>
+    </form>
+
+    <p class="text-center text-slate-400 text-sm mt-5">
+      Already have an account? <a href="login.html" class="text-[#6366F1] hover:text-[#A5B4FC] font-semibold">Sign in →</a>
+    </p>
+  </div>
+</div>
+
+<div id="toast" class="toast hidden"><span id="toastMsg"></span></div>
+
+<style>
+.role-btn {
+  background: rgba(255,255,255,0.04);
+  border: 2px solid rgba(255,255,255,0.08);
+  border-radius: 16px;
+  padding: 14px 12px;
+  text-align: center;
+  cursor: pointer;
+  transition: all 0.3s;
+  color: var(--pearl);
+}
+.role-btn:hover { border-color: rgba(99,102,241,0.4); background: rgba(99,102,241,0.06); }
+.role-btn.active { border-color: var(--indigo); background: rgba(99,102,241,0.12); box-shadow: 0 0 0 1px rgba(99,102,241,0.3); }
+</style>
+
+<script>
+function selectRole(role) {
+  document.getElementById('selectedRole').value = role;
+  document.getElementById('rolebuyer').classList.toggle('active', role==='buyer');
+  document.getElementById('roleseller').classList.toggle('active', role==='seller');
+}
+
+function checkStrength(val) {
+  const bars = ['s1','s2','s3','s4'];
+  const colors = ['bg-rose-500','bg-amber-500','bg-yellow-400','bg-emerald-500'];
+  const labels = ['Too short','Weak','Good','Strong 💪'];
+  let score = 0;
+  if (val.length >= 8) score++;
+  if (/[A-Z]/.test(val)) score++;
+  if (/[0-9]/.test(val)) score++;
+  if (/[^A-Za-z0-9]/.test(val)) score++;
+  bars.forEach((id,i) => {
+    const el = document.getElementById(id);
+    el.className = `h-1 flex-1 rounded-full ${i < score ? colors[score-1] : 'bg-white/08'}`;
+  });
+  document.getElementById('strengthLabel').textContent = val.length ? labels[score-1] || 'Too short' : 'Use 8+ chars, numbers, and symbols';
+}
+
+function togglePwd(id, btn) {
+  const input = document.getElementById(id);
+  input.type = input.type === 'password' ? 'text' : 'password';
+  btn.textContent = input.type === 'password' ? '👁' : '🙈';
+}
+
+function handleSignup(e) {
+  e.preventDefault();
+  const email = document.getElementById('email').value.trim();
+  const pwd = document.getElementById('password').value;
+  const cpwd = document.getElementById('confirmPwd').value;
+  const terms = document.getElementById('terms').checked;
+  let valid = true;
+  document.getElementById('emailError').classList.add('hidden');
+  document.getElementById('pwdError').classList.add('hidden');
+  if (!email || !/\S+@\S+\.\S+/.test(email)) { document.getElementById('emailError').classList.remove('hidden'); valid = false; }
+  if (pwd !== cpwd) { document.getElementById('pwdError').classList.remove('hidden'); valid = false; }
+  if (!terms) { showToast('Please accept the terms', 'error'); valid = false; }
+  if (!valid) return;
+  const txt = document.getElementById('signupBtnText');
+  const spin = document.getElementById('signupSpinner');
+  txt.textContent = 'Creating account...'; spin.classList.remove('hidden');
+  setTimeout(() => {
+    const role = document.getElementById('selectedRole').value;
+    const name = `${document.getElementById('firstName').value} ${document.getElementById('lastName').value}`.trim() || 'New User';
+    localStorage.setItem('pv_user', JSON.stringify({ email, name, role, balance: 5 }));
+    localStorage.setItem('pv_token', 'mock_jwt_token_' + Date.now());
+    showToast('🎉 Account created! Welcome to PromptVault!');
+    setTimeout(() => window.location = role === 'seller' ? 'seller-dashboard.html' : 'marketplace.html', 1000);
+  }, 1500);
+}
+
+function showToast(msg, type='success') {
+  const t = document.getElementById('toast'); document.getElementById('toastMsg').textContent = msg;
+  t.className = `toast ${type}`; t.classList.remove('hidden'); setTimeout(()=>t.classList.add('hidden'),3000);
+}
+</script>
+</body>
+</html>
