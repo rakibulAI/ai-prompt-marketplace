@@ -1,0 +1,532 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title id="pageTitle">Cold Email Generator — PromptVault</title>
+  <meta name="description" content="Generate personalized cold emails that convert at 3x industry average. ChatGPT prompt with example output." />
+  <!-- Schema.org Product Markup -->
+  <script type="application/ld+json">{"@context":"https://schema.org","@type":"Product","name":"Cold Email Generator","description":"Generate personalized cold emails","offers":{"@type":"Offer","price":"9.99","priceCurrency":"USD","availability":"https://schema.org/InStock"}}</script>
+  <link href="https://fonts.googleapis.com/css2?family=Syne:wght@400;600;700;800&family=DM+Sans:wght@300;400;500;600&display=swap" rel="stylesheet" />
+  <script src="https://cdn.tailwindcss.com"></script>
+  <link rel="stylesheet" href="css/style.css" />
+</head>
+<body class="bg-[#0F0F23] text-[#F8FAFC]">
+
+<!-- NAVBAR -->
+<nav id="navbar" class="glass-nav fixed top-0 w-full z-50">
+  <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+    <div class="flex items-center justify-between h-16">
+      <a href="index.html" class="flex items-center gap-3">
+        <div class="w-9 h-9 rounded-xl bg-gradient-to-br from-[#6366F1] to-[#A5B4FC] flex items-center justify-center">
+          <svg class="w-5 h-5 text-white" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 10V3L4 14h7v7l9-11h-7z"/></svg>
+        </div>
+        <span class="font-display font-800 text-xl">Prompt<span class="text-[#6366F1]">Vault</span></span>
+      </a>
+      <div class="flex items-center gap-3">
+        <a href="marketplace.html" class="glass-btn text-sm px-4 py-2 rounded-xl font-medium">← Back</a>
+        <a href="signup.html" class="btn-primary text-sm px-5 py-2 rounded-xl font-semibold">Sign Up Free</a>
+      </div>
+    </div>
+  </div>
+</nav>
+
+<!-- BREADCRUMB -->
+<div class="pt-24 pb-4 max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+  <div class="flex items-center gap-2 text-sm text-slate-500">
+    <a href="index.html" class="hover:text-white transition-colors">Home</a>
+    <span>/</span>
+    <a href="marketplace.html" class="hover:text-white transition-colors">Marketplace</a>
+    <span>/</span>
+    <a href="marketplace.html?cat=chatgpt" class="hover:text-white transition-colors">ChatGPT</a>
+    <span>/</span>
+    <span class="text-slate-300" id="breadcrumbTitle">Cold Email Generator</span>
+  </div>
+</div>
+
+<!-- MAIN CONTENT: Split Layout -->
+<main class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 pb-24">
+  <div class="grid lg:grid-cols-3 gap-8">
+
+    <!-- ─── LEFT: Demo + Details (2/3) ─────────────────────── -->
+    <div class="lg:col-span-2 space-y-6">
+
+      <!-- Prompt Header -->
+      <div class="detail-hero animate-fade-up">
+        <div class="flex items-start justify-between gap-4 flex-wrap">
+          <div class="flex-1">
+            <div class="flex items-center gap-3 mb-3 flex-wrap">
+              <span id="promptBadge" class="prompt-card-badge" style="background:rgba(99,102,241,0.15);color:#A5B4FC">🔥 BESTSELLER</span>
+              <span id="promptCategory" class="text-xs text-slate-500 uppercase tracking-widest">ChatGPT · Marketing</span>
+            </div>
+            <h1 id="promptTitle" class="font-display font-800 text-2xl lg:text-4xl mb-3">Cold Email Generator</h1>
+            <p id="promptDesc" class="text-slate-300 text-base leading-relaxed max-w-2xl">
+              Generate hyper-personalized cold emails that convert at 3x the industry average. This prompt leverages psychology-driven templates, pain point identification, and proven email structures used by top sales teams worldwide.
+            </p>
+          </div>
+          <div class="flex gap-2">
+            <button class="glass-icon-btn w-10 h-10 rounded-xl flex items-center justify-center text-lg" id="wishlistBtn" onclick="toggleWishlist()" title="Wishlist">♡</button>
+            <button class="glass-icon-btn w-10 h-10 rounded-xl flex items-center justify-center" onclick="sharePrompt()" title="Share">
+              <svg class="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8.684 13.342C8.886 12.938 9 12.482 9 12c0-.482-.114-.938-.316-1.342m0 2.684a3 3 0 110-2.684m0 2.684l6.632 3.316m-6.632-6l6.632-3.316m0 0a3 3 0 105.367-2.684 3 3 0 00-5.367 2.684zm0 9.316a3 3 0 105.368 2.684 3 3 0 00-5.368-2.684z"/></svg>
+            </button>
+          </div>
+        </div>
+
+        <!-- Meta Stats -->
+        <div class="flex flex-wrap items-center gap-4 mt-5 pt-5 border-t border-white/08">
+          <div class="flex items-center gap-2">
+            <div class="flex text-yellow-400 text-sm">★★★★★</div>
+            <span class="font-semibold text-sm">4.9</span>
+            <span class="text-slate-500 text-sm">(247 reviews)</span>
+          </div>
+          <div class="w-px h-4 bg-white/10"></div>
+          <span class="text-slate-400 text-sm">🛒 <strong class="text-white">1,832</strong> sold</span>
+          <div class="w-px h-4 bg-white/10"></div>
+          <span class="text-slate-400 text-sm">📅 Updated <strong class="text-white">Jan 2025</strong></span>
+          <div class="w-px h-4 bg-white/10"></div>
+          <span class="text-slate-400 text-sm">🤖 <strong class="text-white">GPT-4</strong> optimized</span>
+        </div>
+      </div>
+
+      <!-- COUNTDOWN TIMER -->
+      <div class="countdown-banner animate-fade-up" style="animation-delay:0.1s">
+        <span class="text-sm font-semibold text-rose-400">⏰ Limited Time Offer!</span>
+        <span class="text-slate-400 text-sm">Ends in:</span>
+        <div class="flex items-center gap-2">
+          <div class="countdown-digits" id="cdHours">05</div>
+          <span class="text-rose-400 font-bold">:</span>
+          <div class="countdown-digits" id="cdMins">42</div>
+          <span class="text-rose-400 font-bold">:</span>
+          <div class="countdown-digits" id="cdSecs">18</div>
+        </div>
+        <span class="text-rose-400 text-sm font-semibold">Save 30%</span>
+      </div>
+
+      <!-- LIVE PREVIEW SECTION -->
+      <div class="glass-card p-6 animate-fade-up" style="animation-delay:0.15s">
+        <div class="flex items-center justify-between mb-4">
+          <h2 class="font-display font-700 text-lg">Live Prompt Preview</h2>
+          <div class="flex items-center gap-2">
+            <button class="preview-toggle-btn active" id="btnPrompt" onclick="showTab('prompt')">📄 Prompt</button>
+            <button class="preview-toggle-btn" id="btnOutput" onclick="showTab('output')">🤖 AI Output</button>
+          </div>
+        </div>
+
+        <!-- Prompt Content -->
+        <div id="tabPrompt" class="live-preview-box">
+          <span class="text-[#A5B4FC]">You are an expert cold email copywriter with 10+ years of experience in B2B sales.</span><br/><br/>
+          <span class="text-slate-400">Write a personalized cold email to:</span><br/>
+          <span class="text-emerald-400">• Prospect Name: [NAME]</span><br/>
+          <span class="text-emerald-400">• Company: [COMPANY]</span><br/>
+          <span class="text-emerald-400">• Their Pain Point: [PAIN_POINT]</span><br/>
+          <span class="text-emerald-400">• My Product: [PRODUCT]</span><br/><br/>
+          <span class="text-slate-400">Requirements:</span><br/>
+          <span class="text-[#A5B4FC]">1. Subject line that creates curiosity gap<br/>2. Opening with a personalized observation<br/>3. Problem-Agitate-Solution structure<br/>4. Social proof in 1 sentence<br/>5. Single, clear CTA<br/>6. Under 120 words</span>
+        </div>
+
+        <!-- Output Content -->
+        <div id="tabOutput" class="live-preview-box hidden">
+          <span class="text-emerald-400 text-xs">// EXAMPLE AI OUTPUT (GPT-4)</span><br/><br/>
+          <span class="text-amber-300">Subject:</span> <span class="text-[#A5B4FC]">3 things killing [COMPANY]'s demo conversion rate</span><br/><br/>
+          <span class="text-slate-300">Hi [NAME],</span><br/><br/>
+          <span class="text-slate-300">Noticed [COMPANY] recently expanded your SDR team — impressive growth! Most teams at this stage hit the same wall: demo requests go up, but conversion stays flat.</span><br/><br/>
+          <span class="text-slate-300">We helped [Similar Company] 3x their demo-to-close rate in 60 days by fixing 3 specific friction points in their outbound sequence.</span><br/><br/>
+          <span class="text-[#6366F1]">Worth a 15-min call this week to see if the same applies to you?</span><br/><br/>
+          <span class="text-slate-500">Best, [Your Name]</span>
+        </div>
+
+        <div class="flex items-center justify-between mt-4 flex-wrap gap-3">
+          <div class="flex items-center gap-2">
+            <span class="text-emerald-400 text-xs">✓ Tested on GPT-4, Claude 3, Gemini Pro</span>
+          </div>
+          <div class="flex gap-2">
+            <button class="copy-btn" id="copyBtn" onclick="copyPrompt()">
+              <svg class="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 16H6a2 2 0 01-2-2V6a2 2 0 012-2h8a2 2 0 012 2v2m-6 12h8a2 2 0 002-2v-8a2 2 0 00-2-2h-8a2 2 0 00-2 2v8a2 2 0 002 2z"/></svg>
+              Copy Prompt
+            </button>
+            <button class="copy-btn" onclick="copyOutput()">📋 Copy Output</button>
+          </div>
+        </div>
+      </div>
+
+      <!-- WHAT'S INCLUDED -->
+      <div class="glass-card p-6 animate-fade-up" style="animation-delay:0.2s">
+        <h2 class="font-display font-700 text-lg mb-4">What's Included</h2>
+        <div class="grid sm:grid-cols-2 gap-3">
+          <div class="flex items-center gap-3 text-sm">
+            <span class="w-6 h-6 rounded-full bg-emerald-500/20 text-emerald-400 flex items-center justify-center text-xs">✓</span>
+            <span class="text-slate-300">Full prompt with variables</span>
+          </div>
+          <div class="flex items-center gap-3 text-sm">
+            <span class="w-6 h-6 rounded-full bg-emerald-500/20 text-emerald-400 flex items-center justify-center text-xs">✓</span>
+            <span class="text-slate-300">5 example outputs</span>
+          </div>
+          <div class="flex items-center gap-3 text-sm">
+            <span class="w-6 h-6 rounded-full bg-emerald-500/20 text-emerald-400 flex items-center justify-center text-xs">✓</span>
+            <span class="text-slate-300">Variable customization guide</span>
+          </div>
+          <div class="flex items-center gap-3 text-sm">
+            <span class="w-6 h-6 rounded-full bg-emerald-500/20 text-emerald-400 flex items-center justify-center text-xs">✓</span>
+            <span class="text-slate-300">Lifetime access & updates</span>
+          </div>
+          <div class="flex items-center gap-3 text-sm">
+            <span class="w-6 h-6 rounded-full bg-emerald-500/20 text-emerald-400 flex items-center justify-center text-xs">✓</span>
+            <span class="text-slate-300">Compatible: GPT-3.5, GPT-4, Claude</span>
+          </div>
+          <div class="flex items-center gap-3 text-sm">
+            <span class="w-6 h-6 rounded-full bg-emerald-500/20 text-emerald-400 flex items-center justify-center text-xs">✓</span>
+            <span class="text-slate-300">30-day money-back guarantee</span>
+          </div>
+        </div>
+      </div>
+
+      <!-- REVIEWS -->
+      <div class="space-y-4 animate-fade-up" style="animation-delay:0.25s">
+        <div class="flex items-center justify-between">
+          <h2 class="font-display font-700 text-xl">Reviews <span class="text-slate-500 font-normal text-base">(247)</span></h2>
+          <div class="flex items-center gap-2">
+            <div class="flex text-yellow-400">★★★★★</div>
+            <span class="font-bold">4.9</span>
+          </div>
+        </div>
+
+        <!-- Rating Breakdown -->
+        <div class="glass-card p-5 mb-6">
+          <div class="space-y-2">
+            <div class="flex items-center gap-3 text-sm">
+              <span class="text-yellow-400 w-12">5 ★</span>
+              <div class="flex-1 h-2 bg-white/08 rounded-full overflow-hidden">
+                <div class="h-full bg-yellow-400 rounded-full" style="width:88%"></div>
+              </div>
+              <span class="text-slate-400 w-8">88%</span>
+            </div>
+            <div class="flex items-center gap-3 text-sm">
+              <span class="text-yellow-400 w-12">4 ★</span>
+              <div class="flex-1 h-2 bg-white/08 rounded-full overflow-hidden">
+                <div class="h-full bg-yellow-400 rounded-full" style="width:8%"></div>
+              </div>
+              <span class="text-slate-400 w-8">8%</span>
+            </div>
+            <div class="flex items-center gap-3 text-sm">
+              <span class="text-yellow-400 w-12">3 ★</span>
+              <div class="flex-1 h-2 bg-white/08 rounded-full overflow-hidden">
+                <div class="h-full bg-yellow-400 rounded-full" style="width:3%"></div>
+              </div>
+              <span class="text-slate-400 w-8">3%</span>
+            </div>
+            <div class="flex items-center gap-3 text-sm">
+              <span class="text-yellow-400 w-12">1-2 ★</span>
+              <div class="flex-1 h-2 bg-white/08 rounded-full overflow-hidden">
+                <div class="h-full bg-yellow-400 rounded-full" style="width:1%"></div>
+              </div>
+              <span class="text-slate-400 w-8">1%</span>
+            </div>
+          </div>
+        </div>
+
+        <!-- Individual Reviews -->
+        <div class="space-y-4" id="reviewsList">
+          <!-- Populated by JS -->
+        </div>
+
+        <!-- Write Review -->
+        <div class="glass-card p-6">
+          <h3 class="font-display font-700 text-base mb-4">Write a Review</h3>
+          <div class="mb-4">
+            <label class="form-label mb-2">Your Rating</label>
+            <div class="star-rating" id="starRating">
+              <button class="star-btn" data-rating="1" onclick="setRating(1)">★</button>
+              <button class="star-btn" data-rating="2" onclick="setRating(2)">★</button>
+              <button class="star-btn" data-rating="3" onclick="setRating(3)">★</button>
+              <button class="star-btn" data-rating="4" onclick="setRating(4)">★</button>
+              <button class="star-btn" data-rating="5" onclick="setRating(5)">★</button>
+            </div>
+          </div>
+          <textarea class="form-input w-full h-24 resize-none" placeholder="Share your experience with this prompt..." id="reviewText"></textarea>
+          <button class="btn-primary mt-3 px-6 py-2.5 rounded-xl text-sm font-semibold" onclick="submitReview()">Submit Review</button>
+        </div>
+      </div>
+    </div>
+
+    <!-- ─── RIGHT: Buy Panel + Related (1/3) ───────────────── -->
+    <div class="space-y-5">
+
+      <!-- BUY PANEL -->
+      <div class="glass-card p-6 sticky top-24 animate-fade-up" style="animation-delay:0.1s">
+        <!-- Price -->
+        <div class="flex items-center gap-3 mb-1">
+          <span class="font-display font-800 text-4xl" id="promptPrice">$9.99</span>
+          <span class="text-slate-500 line-through text-lg">$14.99</span>
+          <span class="text-emerald-400 text-sm font-bold bg-emerald-500/10 px-2 py-0.5 rounded-full">-33%</span>
+        </div>
+        <div class="text-slate-400 text-sm mb-5">One-time purchase · Instant delivery</div>
+
+        <!-- Trust Badges -->
+        <div class="flex flex-wrap gap-2 mb-5">
+          <span class="trust-micro">🔒 Secure Payment</span>
+          <span class="trust-micro">⚡ Instant Delivery</span>
+          <span class="trust-micro">🔄 Lifetime Access</span>
+          <span class="trust-micro">💯 Money-back</span>
+        </div>
+
+        <!-- CTA Buttons -->
+        <button class="btn-primary w-full py-4 rounded-2xl font-bold text-base mb-3 pulse-glow" onclick="buyNow()">
+          🚀 Buy Now — $9.99
+        </button>
+        <button class="btn-secondary-lg w-full py-3 rounded-2xl font-semibold text-sm" onclick="addToCart(1,'Cold Email Generator',9.99)">
+          🛒 Add to Cart
+        </button>
+        <button class="w-full py-3 text-slate-400 hover:text-white text-sm transition-colors mt-2" onclick="toggleWishlist()">
+          <span id="wishlistBtnText">♡ Save to Wishlist</span>
+        </button>
+
+        <!-- Wallet Balance -->
+        <div class="mt-4 p-3 rounded-xl" style="background:rgba(16,185,129,0.08);border:1px solid rgba(16,185,129,0.15)">
+          <div class="text-xs text-emerald-400 font-semibold mb-1">💰 Your Wallet Balance</div>
+          <div class="flex items-center justify-between">
+            <span class="text-emerald-300 font-bold">$25.00</span>
+            <button class="text-xs text-emerald-400 hover:text-emerald-300" onclick="buyWithWallet()">Pay with balance →</button>
+          </div>
+        </div>
+
+        <hr class="border-white/08 my-5" />
+
+        <!-- Seller Info -->
+        <div class="flex items-center gap-3">
+          <div class="w-10 h-10 rounded-xl bg-gradient-to-br from-[#6366F1] to-[#7C3AED] flex items-center justify-center text-lg">🧑‍💻</div>
+          <div class="flex-1">
+            <div class="font-semibold text-sm">Alex Chen</div>
+            <div class="text-slate-500 text-xs">@alexai · ⭐ 4.9 · 142 prompts</div>
+          </div>
+          <a href="#" class="glass-btn text-xs px-3 py-1.5 rounded-lg">View</a>
+        </div>
+
+        <hr class="border-white/08 my-5" />
+
+        <!-- Share -->
+        <div class="text-center">
+          <div class="text-xs text-slate-500 mb-3">Share this prompt</div>
+          <div class="flex justify-center gap-2">
+            <button class="glass-btn text-xs px-3 py-2 rounded-lg" onclick="share('twitter')">𝕏 Share</button>
+            <button class="glass-btn text-xs px-3 py-2 rounded-lg" onclick="share('linkedin')">in Share</button>
+            <button class="glass-btn text-xs px-3 py-2 rounded-lg" onclick="share('copy')">🔗 Copy Link</button>
+          </div>
+        </div>
+      </div>
+
+      <!-- RELATED PROMPTS -->
+      <div>
+        <h3 class="font-display font-700 text-base mb-4">Related Prompts</h3>
+        <div class="space-y-3" id="relatedPrompts">
+          <!-- Populated by JS -->
+        </div>
+      </div>
+    </div>
+  </div>
+</main>
+
+<!-- Toast & Modals -->
+<div id="toast" class="toast hidden"><span id="toastMsg"></span></div>
+
+<!-- Buy Modal -->
+<div id="buyModal" class="modal-overlay hidden" onclick="closeBuyModal(event)">
+  <div class="modal-box max-w-sm">
+    <button onclick="closeBuyModal()" class="modal-close">✕</button>
+    <div class="text-4xl mb-4">🚀</div>
+    <h3 class="font-display font-700 text-xl mb-2">Complete Purchase</h3>
+    <p class="text-slate-400 text-sm mb-6">Cold Email Generator — <strong class="text-white">$9.99</strong></p>
+    <div class="space-y-3 mb-6">
+      <button class="payment-method-btn selected" id="payStripe" onclick="selectPayment(this,'stripe')">
+        <span class="text-2xl">💳</span>
+        <div class="text-left">
+          <div class="font-semibold text-sm">Stripe</div>
+          <div class="text-slate-400 text-xs">Credit / Debit Card</div>
+        </div>
+      </button>
+      <button class="payment-method-btn" id="payPaypal" onclick="selectPayment(this,'paypal')">
+        <span class="text-2xl">🅿️</span>
+        <div class="text-left">
+          <div class="font-semibold text-sm">PayPal</div>
+          <div class="text-slate-400 text-xs">PayPal account or guest</div>
+        </div>
+      </button>
+      <button class="payment-method-btn" id="payWallet" onclick="selectPayment(this,'wallet')">
+        <span class="text-2xl">💰</span>
+        <div class="text-left">
+          <div class="font-semibold text-sm">Wallet Balance</div>
+          <div class="text-emerald-400 text-xs">$25.00 available</div>
+        </div>
+      </button>
+    </div>
+    <button class="btn-primary w-full py-4 rounded-2xl font-bold" onclick="confirmPurchase()">
+      Confirm Purchase → $9.99
+    </button>
+    <p class="text-xs text-slate-600 mt-3">🔒 256-bit SSL encryption. Your payment is secure.</p>
+  </div>
+</div>
+
+<style>
+.preview-toggle-btn { padding: 6px 14px; border-radius: 8px; font-size: 0.8rem; font-weight: 600; cursor: pointer; transition: all 0.3s; background: transparent; border: none; color: var(--slate-text); }
+.preview-toggle-btn.active { background: rgba(99,102,241,0.15); color: var(--indigo-light); }
+.preview-toggle-btn:hover { color: white; }
+.trust-micro { font-size: 0.7rem; padding: 3px 8px; border-radius: 6px; background: rgba(255,255,255,0.05); border: 1px solid rgba(255,255,255,0.08); color: var(--slate-text); }
+</style>
+
+<script>
+// ─── REVIEWS DATA ─────────────────────────────────────────────
+const reviews = [
+  { name:'Sarah K.', avatar:'👩‍💼', rating:5, date:'Jan 15, 2025', text:"This prompt is insane! My cold email reply rate jumped from 3% to 12% in the first week. The variable system makes personalization effortless." },
+  { name:'James M.', avatar:'👨‍💻', rating:5, date:'Jan 10, 2025', text:"Best $9.99 I ever spent. Our SDR team uses this daily. The psychology behind the structure is solid — pain point identification is key." },
+  { name:'Priya R.', avatar:'👩‍🎨', rating:4, date:'Dec 28, 2024', text:"Really solid prompt. Works great with GPT-4. Would love a B2C variant but the B2B version converts very well." },
+  { name:'Tom L.', avatar:'🧑', rating:5, date:'Dec 20, 2024', text:"Booked 3 meetings in my first day of using this. The CTA structure alone is worth the price. Highly recommend." },
+];
+
+function renderReviews() {
+  document.getElementById('reviewsList').innerHTML = reviews.map(r => `
+    <div class="review-card">
+      <div class="flex items-center gap-3 mb-3">
+        <div class="w-9 h-9 rounded-full bg-gradient-to-br from-[#6366F1]/30 to-[#7C3AED]/30 flex items-center justify-center text-sm">${r.avatar}</div>
+        <div class="flex-1">
+          <div class="font-semibold text-sm">${r.name}</div>
+          <div class="flex items-center gap-2">
+            <div class="text-yellow-400 text-xs">${'★'.repeat(r.rating)}${'☆'.repeat(5-r.rating)}</div>
+            <span class="text-slate-500 text-xs">${r.date}</span>
+          </div>
+        </div>
+        <span class="text-emerald-400 text-xs">✓ Verified Purchase</span>
+      </div>
+      <p class="text-slate-300 text-sm leading-relaxed">${r.text}</p>
+    </div>
+  `).join('');
+}
+
+// ─── RELATED PROMPTS ─────────────────────────────────────────
+const related = [
+  { id:4, title:'Viral Twitter Thread Writer', price:7.99, rating:5.0, color:'#EC4899' },
+  { id:10, title:'LinkedIn Post Optimizer', price:5.99, rating:4.5, color:'#0EA5E9' },
+  { id:5, title:'Startup Pitch Deck Builder', price:12.99, rating:4.9, color:'#06B6D4' },
+];
+
+function renderRelated() {
+  document.getElementById('relatedPrompts').innerHTML = related.map(p => `
+    <div class="glass-card p-3 cursor-pointer hover:border-[#6366F1]/40 transition-all" onclick="window.location='prompt-detail.html?id=${p.id}'">
+      <div class="flex items-center gap-3">
+        <div class="w-9 h-9 rounded-xl flex-shrink-0" style="background:${p.color}22;border:1px solid ${p.color}33"></div>
+        <div class="flex-1 min-w-0">
+          <div class="font-medium text-sm truncate">${p.title}</div>
+          <div class="flex items-center gap-2">
+            <span class="text-[#6366F1] font-bold text-sm">$${p.price}</span>
+            <span class="text-yellow-400 text-xs">★ ${p.rating}</span>
+          </div>
+        </div>
+      </div>
+    </div>
+  `).join('');
+}
+
+// ─── COUNTDOWN TIMER ─────────────────────────────────────────
+function startCountdown() {
+  let total = 5 * 3600 + 42 * 60 + 18;
+  const interval = setInterval(() => {
+    total--;
+    if (total <= 0) { clearInterval(interval); return; }
+    const h = Math.floor(total / 3600);
+    const m = Math.floor((total % 3600) / 60);
+    const s = total % 60;
+    document.getElementById('cdHours').textContent = String(h).padStart(2,'0');
+    document.getElementById('cdMins').textContent = String(m).padStart(2,'0');
+    document.getElementById('cdSecs').textContent = String(s).padStart(2,'0');
+  }, 1000);
+}
+
+// ─── TABS ────────────────────────────────────────────────────
+function showTab(tab) {
+  document.getElementById('tabPrompt').classList.toggle('hidden', tab!=='prompt');
+  document.getElementById('tabOutput').classList.toggle('hidden', tab!=='output');
+  document.getElementById('btnPrompt').classList.toggle('active', tab==='prompt');
+  document.getElementById('btnOutput').classList.toggle('active', tab==='output');
+}
+
+// ─── COPY ────────────────────────────────────────────────────
+function copyPrompt() {
+  const text = document.getElementById('tabPrompt').innerText;
+  navigator.clipboard.writeText(text);
+  showToast('Prompt copied to clipboard! 📋');
+  document.getElementById('copyBtn').innerHTML = '✓ Copied!';
+  setTimeout(() => document.getElementById('copyBtn').innerHTML = '📋 Copy Prompt', 2000);
+}
+function copyOutput() { showToast('Output example copied!'); }
+
+// ─── BUY FLOW ────────────────────────────────────────────────
+function buyNow() { document.getElementById('buyModal').classList.remove('hidden'); }
+function closeBuyModal(e) {
+  if (!e || e.target===document.getElementById('buyModal')) document.getElementById('buyModal').classList.add('hidden');
+}
+function selectPayment(btn, method) {
+  document.querySelectorAll('.payment-method-btn').forEach(b => b.classList.remove('selected'));
+  btn.classList.add('selected');
+}
+function confirmPurchase() {
+  document.getElementById('buyModal').classList.add('hidden');
+  showToast('🎉 Purchase successful! Check your profile for the prompt.');
+}
+function buyWithWallet() {
+  showToast('💰 Paid with wallet balance! Prompt unlocked.');
+}
+function addToCart(id, title, price) {
+  let cart = JSON.parse(localStorage.getItem('pv_cart')||'[]');
+  if (cart.find(i=>i.id===id)) { showToast('Already in cart!'); return; }
+  cart.push({id,title,price}); localStorage.setItem('pv_cart',JSON.stringify(cart));
+  showToast(`✓ "${title}" added to cart`);
+}
+
+// ─── WISHLIST ────────────────────────────────────────────────
+let inWishlist = false;
+function toggleWishlist() {
+  inWishlist = !inWishlist;
+  document.getElementById('wishlistBtn').textContent = inWishlist ? '♥' : '♡';
+  document.getElementById('wishlistBtn').style.color = inWishlist ? '#EF4444' : '';
+  document.getElementById('wishlistBtnText').textContent = inWishlist ? '♥ Saved to Wishlist' : '♡ Save to Wishlist';
+  showToast(inWishlist ? '❤️ Added to wishlist!' : 'Removed from wishlist');
+}
+
+// ─── SHARE ───────────────────────────────────────────────────
+function sharePrompt() { share('copy'); }
+function share(platform) {
+  const url = window.location.href;
+  if (platform === 'copy') { navigator.clipboard.writeText(url); showToast('Link copied! 🔗'); }
+  else if (platform === 'twitter') window.open(`https://twitter.com/intent/tweet?text=Check out this amazing AI prompt!&url=${url}`);
+  else if (platform === 'linkedin') window.open(`https://linkedin.com/sharing/share-offsite/?url=${url}`);
+}
+
+// ─── RATING ──────────────────────────────────────────────────
+let selectedRating = 0;
+function setRating(n) {
+  selectedRating = n;
+  document.querySelectorAll('.star-btn').forEach((b,i) => b.classList.toggle('active', i < n));
+}
+
+function submitReview() {
+  if (!selectedRating) { showToast('Please select a rating', 'error'); return; }
+  const text = document.getElementById('reviewText').value.trim();
+  if (!text) { showToast('Please write a review', 'error'); return; }
+  showToast('✓ Review submitted! Thank you!');
+  document.getElementById('reviewText').value = '';
+  document.querySelectorAll('.star-btn').forEach(b => b.classList.remove('active'));
+  selectedRating = 0;
+}
+
+// ─── TOAST ──────────────────────────────────────────────────
+function showToast(msg, type='success') {
+  const t = document.getElementById('toast'); document.getElementById('toastMsg').textContent = msg;
+  t.className = `toast ${type}`; t.classList.remove('hidden'); setTimeout(()=>t.classList.add('hidden'),3500);
+}
+
+// ─── INIT ────────────────────────────────────────────────────
+document.addEventListener('DOMContentLoaded', () => {
+  renderReviews(); renderRelated(); startCountdown();
+  window.addEventListener('scroll', () => document.getElementById('navbar').classList.toggle('scrolled', window.scrollY > 50));
+});
+</script>
+</body>
+</html>

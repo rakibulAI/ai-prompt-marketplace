@@ -1,0 +1,602 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Seller Dashboard — PromptVault</title>
+  <link href="https://fonts.googleapis.com/css2?family=Syne:wght@400;600;700;800&family=DM+Sans:wght@300;400;500;600&display=swap" rel="stylesheet" />
+  <script src="https://cdn.tailwindcss.com"></script>
+  <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+  <link rel="stylesheet" href="css/style.css" />
+</head>
+<body class="bg-[#0F0F23] text-[#F8FAFC]">
+
+<!-- SIDEBAR + MAIN LAYOUT -->
+<div class="flex min-h-screen">
+
+  <!-- ─── SIDEBAR ─────────────────────────────────────────── -->
+  <aside class="hidden lg:flex flex-col w-64 fixed h-full border-r border-white/06" style="background:rgba(15,15,35,0.95)">
+    <!-- Logo -->
+    <div class="p-6 border-b border-white/06">
+      <a href="index.html" class="flex items-center gap-3">
+        <div class="w-9 h-9 rounded-xl bg-gradient-to-br from-[#6366F1] to-[#A5B4FC] flex items-center justify-center">
+          <svg class="w-5 h-5 text-white" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 10V3L4 14h7v7l9-11h-7z"/></svg>
+        </div>
+        <span class="font-display font-800 text-lg">Prompt<span class="text-[#6366F1]">Vault</span></span>
+      </a>
+    </div>
+
+    <!-- Nav Items -->
+    <nav class="flex-1 p-4 overflow-y-auto">
+      <div class="text-xs text-slate-600 uppercase tracking-widest px-3 mb-3">Main</div>
+      <a href="#" class="sidebar-item active" data-tab="overview">
+        <span class="text-lg">📊</span> Overview
+      </a>
+      <a href="#" class="sidebar-item" data-tab="prompts">
+        <span class="text-lg">📝</span> My Prompts
+      </a>
+      <a href="#" class="sidebar-item" data-tab="upload">
+        <span class="text-lg">⬆️</span> Upload New
+      </a>
+      <a href="#" class="sidebar-item" data-tab="earnings">
+        <span class="text-lg">💰</span> Earnings
+      </a>
+      <div class="text-xs text-slate-600 uppercase tracking-widest px-3 mb-3 mt-6">Account</div>
+      <a href="profile.html" class="sidebar-item">
+        <span class="text-lg">👤</span> Profile
+      </a>
+      <a href="#" class="sidebar-item">
+        <span class="text-lg">⚙️</span> Settings
+      </a>
+      <a href="marketplace.html" class="sidebar-item">
+        <span class="text-lg">🛒</span> Marketplace
+      </a>
+    </nav>
+
+    <!-- User Card -->
+    <div class="p-4 border-t border-white/06">
+      <div class="flex items-center gap-3 glass-card p-3 rounded-xl">
+        <div class="w-10 h-10 rounded-xl bg-gradient-to-br from-[#6366F1] to-[#7C3AED] flex items-center justify-center text-lg">🧑‍💻</div>
+        <div class="flex-1 min-w-0">
+          <div class="font-semibold text-sm">Alex Chen</div>
+          <div class="text-[#10B981] text-xs">⭐ Top Seller</div>
+        </div>
+        <button class="text-slate-500 hover:text-rose-400 transition-colors text-sm" onclick="logout()">↩</button>
+      </div>
+    </div>
+  </aside>
+
+  <!-- ─── MAIN CONTENT ─────────────────────────────────────── -->
+  <main class="flex-1 lg:ml-64 p-6 lg:p-8">
+    <!-- Mobile Header -->
+    <div class="lg:hidden flex items-center justify-between mb-6 glass-nav p-4 rounded-2xl">
+      <span class="font-display font-700">Seller Dashboard</span>
+      <button onclick="toggleMobileSidebar()" class="glass-icon-btn w-9 h-9 rounded-lg flex items-center justify-center">☰</button>
+    </div>
+
+    <!-- Page Header -->
+    <div class="flex items-center justify-between mb-8">
+      <div>
+        <h1 class="font-display font-800 text-2xl lg:text-3xl">Welcome back, Alex 👋</h1>
+        <p class="text-slate-400 text-sm mt-1">Here's how your prompts are performing</p>
+      </div>
+      <button class="btn-primary px-5 py-2.5 rounded-xl font-semibold flex items-center gap-2" onclick="openUploadModal()">
+        <span>+</span> Upload Prompt
+      </button>
+    </div>
+
+    <!-- ─── TAB: OVERVIEW ────────────────────────────────────── -->
+    <div id="tabOverview">
+      <!-- STAT CARDS -->
+      <div class="grid grid-cols-2 lg:grid-cols-4 gap-4 mb-8">
+        <div class="stat-card">
+          <div class="flex items-center justify-between mb-2">
+            <div class="stat-label">Total Earnings</div>
+            <span class="stat-change up">+24%</span>
+          </div>
+          <div class="stat-value">$8,420</div>
+          <div class="text-slate-500 text-xs mt-1">vs $6,790 last month</div>
+        </div>
+        <div class="stat-card">
+          <div class="flex items-center justify-between mb-2">
+            <div class="stat-label">Prompts Sold</div>
+            <span class="stat-change up">+18%</span>
+          </div>
+          <div class="stat-value">1,284</div>
+          <div class="text-slate-500 text-xs mt-1">This month</div>
+        </div>
+        <div class="stat-card">
+          <div class="flex items-center justify-between mb-2">
+            <div class="stat-label">Active Prompts</div>
+            <span class="stat-change up">+3</span>
+          </div>
+          <div class="stat-value">142</div>
+          <div class="text-slate-500 text-xs mt-1">4 pending review</div>
+        </div>
+        <div class="stat-card">
+          <div class="flex items-center justify-between mb-2">
+            <div class="stat-label">Avg. Rating</div>
+            <span class="stat-change up">+0.1</span>
+          </div>
+          <div class="stat-value">4.9 ⭐</div>
+          <div class="text-slate-500 text-xs mt-1">From 847 reviews</div>
+        </div>
+      </div>
+
+      <!-- CHARTS ROW -->
+      <div class="grid lg:grid-cols-3 gap-6 mb-8">
+        <!-- Revenue Chart -->
+        <div class="chart-container lg:col-span-2">
+          <div class="chart-title">
+            Revenue Over Time
+            <div class="flex gap-2 text-xs">
+              <button class="filter-tag active text-xs py-1" onclick="updateChart('7d')">7D</button>
+              <button class="filter-tag text-xs py-1" onclick="updateChart('30d')">30D</button>
+              <button class="filter-tag text-xs py-1" onclick="updateChart('90d')">90D</button>
+            </div>
+          </div>
+          <canvas id="revenueChart" height="180"></canvas>
+        </div>
+        <!-- Category Pie -->
+        <div class="chart-container">
+          <div class="chart-title">Sales by Category</div>
+          <canvas id="categoryChart" height="200"></canvas>
+          <div class="flex flex-col gap-1 mt-3" id="legendItems"></div>
+        </div>
+      </div>
+
+      <!-- TOP PROMPTS TABLE -->
+      <div class="glass-card p-6 mb-8">
+        <div class="chart-title mb-4">
+          Top Performing Prompts
+          <button class="glass-btn text-xs px-3 py-1.5 rounded-lg" onclick="exportCSV()">📥 Export CSV</button>
+        </div>
+        <div class="overflow-x-auto">
+          <table class="data-table">
+            <thead>
+              <tr>
+                <th>Prompt</th>
+                <th>Category</th>
+                <th>Price</th>
+                <th>Sales</th>
+                <th>Revenue</th>
+                <th>Rating</th>
+                <th>Status</th>
+                <th>Actions</th>
+              </tr>
+            </thead>
+            <tbody id="promptsTable">
+              <!-- Populated by JS -->
+            </tbody>
+          </table>
+        </div>
+      </div>
+
+      <!-- RECENT TRANSACTIONS -->
+      <div class="glass-card p-6">
+        <div class="chart-title mb-4">Recent Transactions</div>
+        <div class="space-y-3" id="transactionsList">
+          <!-- Populated by JS -->
+        </div>
+      </div>
+    </div>
+  </main>
+</div>
+
+<!-- ═══════════════════════════════════════════
+     UPLOAD WIZARD MODAL
+═══════════════════════════════════════════ -->
+<div id="uploadModal" class="modal-overlay hidden" onclick="closeUploadModal(event)">
+  <div class="modal-box" style="max-width:620px;width:100%">
+    <button onclick="closeUploadModal()" class="modal-close">✕</button>
+    <h2 class="font-display font-700 text-xl mb-2">Upload New Prompt</h2>
+    <p class="text-slate-400 text-sm mb-6">3 easy steps to publish your prompt</p>
+
+    <!-- Wizard Indicator -->
+    <div class="wizard-step-indicator mb-8">
+      <div class="wizard-step-dot active" id="dot1">1</div>
+      <div class="wizard-connector" id="conn1"></div>
+      <div class="wizard-step-dot" id="dot2">2</div>
+      <div class="wizard-connector" id="conn2"></div>
+      <div class="wizard-step-dot" id="dot3">3</div>
+    </div>
+
+    <!-- Step 1: Details -->
+    <div id="step1" class="wizard-step">
+      <div class="space-y-4">
+        <div class="form-group">
+          <label class="form-label">Prompt Title *</label>
+          <input class="form-input" type="text" id="pTitle" placeholder="e.g. Ultimate Cold Email Generator" maxlength="100" />
+          <div class="text-xs text-slate-500 mt-1"><span id="titleCount">0</span>/100 characters</div>
+        </div>
+        <div class="grid grid-cols-2 gap-4">
+          <div class="form-group">
+            <label class="form-label">Category *</label>
+            <select class="form-input" id="pCategory">
+              <option value="">Select category</option>
+              <option value="chatgpt">ChatGPT / GPT-4</option>
+              <option value="midjourney">Midjourney</option>
+              <option value="claude">Claude</option>
+              <option value="stable-diffusion">Stable Diffusion</option>
+              <option value="coding">Coding</option>
+              <option value="marketing">Marketing</option>
+              <option value="writing">Writing</option>
+              <option value="business">Business</option>
+            </select>
+          </div>
+          <div class="form-group">
+            <label class="form-label">AI Model *</label>
+            <select class="form-input" id="pModel">
+              <option>GPT-4</option>
+              <option>GPT-3.5</option>
+              <option>Claude 3</option>
+              <option>Midjourney v6</option>
+              <option>Stable Diffusion XL</option>
+              <option>Gemini Pro</option>
+            </select>
+          </div>
+        </div>
+        <div class="form-group">
+          <label class="form-label">Description *</label>
+          <textarea class="form-input h-24 resize-none" id="pDesc" placeholder="Describe what this prompt does and what results buyers can expect..."></textarea>
+        </div>
+        <div class="form-group">
+          <label class="form-label">Full Prompt Content *</label>
+          <textarea class="form-input h-32 resize-none" id="pContent" placeholder="Paste your complete prompt here..."></textarea>
+        </div>
+      </div>
+      <div class="flex justify-end mt-6">
+        <button class="btn-primary px-8 py-3 rounded-xl font-semibold" onclick="nextStep(2)">Continue →</button>
+      </div>
+    </div>
+
+    <!-- Step 2: Pricing & Example -->
+    <div id="step2" class="wizard-step hidden">
+      <div class="space-y-5">
+        <!-- Price Slider -->
+        <div class="form-group">
+          <label class="form-label">Set Your Price</label>
+          <div class="flex items-center gap-4 mb-3">
+            <span class="font-display font-800 text-3xl text-[#6366F1]" id="priceDisplay">$9</span>
+            <div class="flex gap-2">
+              <span class="text-xs px-2 py-1 rounded bg-emerald-500/10 text-emerald-400">Recommended</span>
+            </div>
+          </div>
+          <input type="range" class="price-slider w-full" id="priceRange" min="2" max="20" value="9" step="1" oninput="updatePriceDisplay(this.value)" />
+          <div class="flex justify-between text-xs text-slate-500 mt-1">
+            <span>$2 (Budget)</span>
+            <span>$10 (Popular)</span>
+            <span>$20 (Premium)</span>
+          </div>
+          <div class="mt-3 p-3 rounded-xl text-sm" style="background:rgba(99,102,241,0.08);border:1px solid rgba(99,102,241,0.15)">
+            <span class="text-slate-400">Your earnings at this price:</span>
+            <span class="text-[#A5B4FC] font-bold ml-2" id="earningsEstimate">$7.20/sale (80% cut)</span>
+          </div>
+        </div>
+
+        <!-- Tags -->
+        <div class="form-group">
+          <label class="form-label">Tags (comma separated)</label>
+          <input class="form-input" type="text" id="pTags" placeholder="cold email, b2b, sales, outreach, marketing" />
+        </div>
+
+        <!-- Example Upload -->
+        <div class="form-group">
+          <label class="form-label">Example Output File (optional)</label>
+          <div class="drop-zone" id="dropZone" onclick="document.getElementById('fileInput').click()" ondragover="dragOver(event)" ondrop="dropFile(event)" ondragleave="dragLeave(event)">
+            <div class="text-4xl mb-3" id="dropIcon">📂</div>
+            <div class="font-semibold text-sm mb-1" id="dropTitle">Drop your example file here</div>
+            <div class="text-slate-500 text-xs" id="dropSubtitle">PDF, PNG, JPG, TXT — Max 10MB</div>
+            <input type="file" id="fileInput" class="hidden" accept=".pdf,.png,.jpg,.jpeg,.txt,.md" onchange="handleFile(this)" />
+          </div>
+        </div>
+      </div>
+      <div class="flex justify-between mt-6">
+        <button class="btn-secondary-lg px-8 py-3 rounded-xl font-semibold text-sm" onclick="prevStep(1)">← Back</button>
+        <button class="btn-primary px-8 py-3 rounded-xl font-semibold" onclick="nextStep(3)">Continue →</button>
+      </div>
+    </div>
+
+    <!-- Step 3: Preview & Publish -->
+    <div id="step3" class="wizard-step hidden">
+      <div class="glass-card p-5 mb-5">
+        <div class="flex items-center justify-between mb-4">
+          <div class="prompt-card-badge" style="background:rgba(99,102,241,0.15);color:#A5B4FC">Preview</div>
+          <span class="text-sm text-slate-500">How buyers will see it</span>
+        </div>
+        <h3 class="font-display font-700 text-lg mb-1" id="previewTitle">Ultimate Cold Email Generator</h3>
+        <div class="text-xs text-slate-500 mb-2" id="previewCategory">ChatGPT · Marketing</div>
+        <p class="text-slate-400 text-sm mb-4" id="previewDesc">Your description here...</p>
+        <div class="flex items-center justify-between">
+          <span class="font-display font-800 text-2xl text-[#6366F1]" id="previewPrice">$9</span>
+          <span class="text-emerald-400 text-xs">✓ Ready for review</span>
+        </div>
+      </div>
+
+      <div class="space-y-3 text-sm text-slate-400">
+        <div class="flex items-center gap-2">
+          <span class="text-emerald-400">✓</span> Your prompt will be reviewed within 24 hours
+        </div>
+        <div class="flex items-center gap-2">
+          <span class="text-emerald-400">✓</span> You earn 80% of every sale
+        </div>
+        <div class="flex items-center gap-2">
+          <span class="text-emerald-400">✓</span> Withdraw earnings anytime via Stripe
+        </div>
+      </div>
+
+      <div class="flex justify-between mt-6">
+        <button class="btn-secondary-lg px-8 py-3 rounded-xl font-semibold text-sm" onclick="prevStep(2)">← Back</button>
+        <button class="btn-primary px-8 py-3 rounded-xl font-semibold" onclick="publishPrompt()">🚀 Publish Prompt</button>
+      </div>
+    </div>
+  </div>
+</div>
+
+<div id="toast" class="toast hidden"><span id="toastMsg"></span></div>
+
+<script>
+// ─── CHART.JS SETUP ───────────────────────────────────────────
+let revenueChart, categoryChart;
+
+const chartDefaults = {
+  color: '#94A3B8',
+  borderColor: 'rgba(255,255,255,0.1)',
+};
+Chart.defaults.color = chartDefaults.color;
+Chart.defaults.borderColor = chartDefaults.borderColor;
+
+function initCharts() {
+  // Revenue Line Chart
+  const rCtx = document.getElementById('revenueChart').getContext('2d');
+  revenueChart = new Chart(rCtx, {
+    type: 'line',
+    data: {
+      labels: ['Mon','Tue','Wed','Thu','Fri','Sat','Sun'],
+      datasets: [{
+        label: 'Revenue ($)',
+        data: [280, 340, 190, 510, 420, 680, 590],
+        borderColor: '#6366F1',
+        backgroundColor: (ctx) => {
+          const g = ctx.chart.ctx.createLinearGradient(0,0,0,200);
+          g.addColorStop(0,'rgba(99,102,241,0.3)'); g.addColorStop(1,'rgba(99,102,241,0)');
+          return g;
+        },
+        fill: true,
+        tension: 0.4,
+        pointBackgroundColor: '#6366F1',
+        pointBorderColor: '#0F0F23',
+        pointBorderWidth: 2,
+        pointRadius: 5,
+      }]
+    },
+    options: {
+      responsive: true,
+      plugins: { legend: { display: false } },
+      scales: {
+        x: { grid: { color: 'rgba(255,255,255,0.04)' } },
+        y: { grid: { color: 'rgba(255,255,255,0.04)' }, beginAtZero: true, ticks: { callback: v => '$'+v } }
+      }
+    }
+  });
+
+  // Category Pie
+  const pCtx = document.getElementById('categoryChart').getContext('2d');
+  const catData = { labels:['ChatGPT','Midjourney','Writing','Business','Coding'], data:[42,28,15,10,5], colors:['#6366F1','#10B981','#F59E0B','#EC4899','#06B6D4'] };
+  categoryChart = new Chart(pCtx, {
+    type: 'doughnut',
+    data: {
+      labels: catData.labels,
+      datasets: [{ data: catData.data, backgroundColor: catData.colors, borderWidth: 0, hoverOffset: 4 }]
+    },
+    options: {
+      responsive: true,
+      plugins: { legend: { display: false } },
+      cutout: '65%'
+    }
+  });
+
+  // Legend
+  document.getElementById('legendItems').innerHTML = catData.labels.map((l,i) => `
+    <div class="flex items-center justify-between text-xs">
+      <div class="flex items-center gap-2">
+        <div class="w-2 h-2 rounded-full" style="background:${catData.colors[i]}"></div>
+        <span class="text-slate-400">${l}</span>
+      </div>
+      <span class="font-semibold">${catData.data[i]}%</span>
+    </div>
+  `).join('');
+}
+
+function updateChart(period) {
+  const data = {
+    '7d': [280,340,190,510,420,680,590],
+    '30d': [1200,980,1450,1100,1680,1350,1890,1200,1650,2100,1800,1450,1700,1950,2200,1800,2100,1650,1900,2300,1700,2000,2400,2100,1800,2200,2500,2100,1950,2300],
+    '90d': [8400,9200,7800,10500,9800,11200,10100,9400,11800,12200,10800,11500]
+  };
+  const labels = { '7d':['Mon','Tue','Wed','Thu','Fri','Sat','Sun'], '30d':Array.from({length:30},(_,i)=>`D${i+1}`), '90d':['Jan','Feb','Mar','Apr','May','Jun','Jul','Aug','Sep','Oct','Nov','Dec'] };
+  revenueChart.data.labels = labels[period];
+  revenueChart.data.datasets[0].data = data[period];
+  revenueChart.update();
+  document.querySelectorAll('.filter-tag').forEach(b=>b.classList.remove('active'));
+  event.target.classList.add('active');
+}
+
+// ─── TABLE DATA ───────────────────────────────────────────────
+const prompts = [
+  { title:'Cold Email Generator', cat:'ChatGPT', price:'$9.99', sales:247, revenue:'$1,981', rating:'4.9', status:'approved' },
+  { title:'SEO Blog Writer Pro', cat:'ChatGPT', price:'$8.99', sales:203, revenue:'$1,463', rating:'4.8', status:'approved' },
+  { title:'LinkedIn Post Optimizer', cat:'ChatGPT', price:'$5.99', sales:164, revenue:'$789', rating:'4.5', status:'approved' },
+  { title:'React Component Builder', cat:'Claude', price:'$15.99', sales:142, revenue:'$1,822', rating:'4.8', status:'approved' },
+  { title:'YouTube Script Creator', cat:'GPT-4', price:'$11.99', sales:118, revenue:'$1,131', rating:'4.6', status:'approved' },
+  { title:'Anime Character Designer', cat:'Midjourney', price:'$9.99', sales:0, revenue:'$0', rating:'—', status:'pending' },
+];
+
+function renderTable() {
+  document.getElementById('promptsTable').innerHTML = prompts.map(p => `
+    <tr>
+      <td class="font-medium text-white">${p.title}</td>
+      <td>${p.cat}</td>
+      <td class="text-[#6366F1] font-semibold">${p.price}</td>
+      <td>${p.sales}</td>
+      <td class="text-emerald-400 font-semibold">${p.revenue}</td>
+      <td class="text-yellow-400">${p.rating !== '—' ? '★ '+p.rating : '—'}</td>
+      <td><span class="status-badge ${p.status}">${p.status}</span></td>
+      <td>
+        <div class="flex gap-2">
+          <button class="glass-btn text-xs px-2 py-1 rounded" onclick="editPrompt('${p.title}')">Edit</button>
+          <button class="glass-btn text-xs px-2 py-1 rounded text-rose-400 hover:text-rose-300" onclick="deletePrompt('${p.title}')">Del</button>
+        </div>
+      </td>
+    </tr>
+  `).join('');
+}
+
+// ─── TRANSACTIONS ─────────────────────────────────────────────
+const transactions = [
+  { buyer:'james.m@email.com', prompt:'Cold Email Generator', amount:'$7.19', date:'Jan 16, 2025', time:'14:32' },
+  { buyer:'sarah.k@email.com', prompt:'SEO Blog Writer Pro', amount:'$6.39', date:'Jan 16, 2025', time:'12:18' },
+  { buyer:'tom.l@email.com', prompt:'Cold Email Generator', amount:'$7.19', date:'Jan 15, 2025', time:'18:45' },
+  { buyer:'priya.r@email.com', prompt:'React Component Builder', amount:'$11.51', date:'Jan 15, 2025', time:'11:20' },
+];
+
+function renderTransactions() {
+  document.getElementById('transactionsList').innerHTML = transactions.map(t => `
+    <div class="flex items-center justify-between py-3 border-b border-white/04">
+      <div class="flex items-center gap-3">
+        <div class="w-8 h-8 rounded-full bg-[#6366F1]/20 flex items-center justify-center text-sm">💳</div>
+        <div>
+          <div class="text-sm font-medium">${t.prompt}</div>
+          <div class="text-xs text-slate-500">${t.buyer} · ${t.date} ${t.time}</div>
+        </div>
+      </div>
+      <span class="text-emerald-400 font-semibold">${t.amount}</span>
+    </div>
+  `).join('');
+}
+
+// ─── WIZARD ──────────────────────────────────────────────────
+let currentStep = 1;
+
+function openUploadModal() { document.getElementById('uploadModal').classList.remove('hidden'); }
+function closeUploadModal(e) {
+  if (!e || e.target===document.getElementById('uploadModal')) {
+    document.getElementById('uploadModal').classList.add('hidden');
+  }
+}
+
+function nextStep(to) {
+  if (to === 2 && !validateStep1()) return;
+  if (to === 3) updatePreview();
+  document.getElementById(`step${currentStep}`).classList.add('hidden');
+  document.getElementById(`step${to}`).classList.remove('hidden');
+  updateWizardUI(to);
+  currentStep = to;
+}
+
+function prevStep(to) {
+  document.getElementById(`step${currentStep}`).classList.add('hidden');
+  document.getElementById(`step${to}`).classList.remove('hidden');
+  updateWizardUI(to);
+  currentStep = to;
+}
+
+function updateWizardUI(step) {
+  for (let i = 1; i <= 3; i++) {
+    const dot = document.getElementById(`dot${i}`);
+    dot.className = 'wizard-step-dot';
+    if (i < step) dot.classList.add('done'), dot.textContent = '✓';
+    else if (i === step) dot.classList.add('active'), dot.textContent = i;
+    else dot.textContent = i;
+  }
+  for (let i = 1; i <= 2; i++) {
+    document.getElementById(`conn${i}`)?.classList.toggle('done', i < step);
+  }
+}
+
+function validateStep1() {
+  const title = document.getElementById('pTitle').value.trim();
+  const cat = document.getElementById('pCategory').value;
+  const desc = document.getElementById('pDesc').value.trim();
+  const content = document.getElementById('pContent').value.trim();
+  if (!title) { showToast('Please enter a title', 'error'); return false; }
+  if (!cat) { showToast('Please select a category', 'error'); return false; }
+  if (!desc) { showToast('Please add a description', 'error'); return false; }
+  if (!content) { showToast('Please add the prompt content', 'error'); return false; }
+  return true;
+}
+
+function updatePreview() {
+  document.getElementById('previewTitle').textContent = document.getElementById('pTitle').value || 'Your Prompt Title';
+  document.getElementById('previewCategory').textContent = (document.getElementById('pCategory').value || 'Category') + ' · ' + document.getElementById('pModel').value;
+  document.getElementById('previewDesc').textContent = document.getElementById('pDesc').value || 'Description...';
+  document.getElementById('previewPrice').textContent = '$' + document.getElementById('priceRange').value;
+}
+
+function updatePriceDisplay(val) {
+  document.getElementById('priceDisplay').textContent = '$' + val;
+  document.getElementById('earningsEstimate').textContent = `$${(val * 0.8).toFixed(2)}/sale (80% cut)`;
+}
+
+function publishPrompt() {
+  document.getElementById('uploadModal').classList.add('hidden');
+  showToast('🎉 Prompt submitted for review! Usually approved within 24 hours.');
+  currentStep = 1;
+}
+
+// ─── FILE DROP ────────────────────────────────────────────────
+function dragOver(e) { e.preventDefault(); document.getElementById('dropZone').classList.add('drag-over'); }
+function dragLeave(e) { document.getElementById('dropZone').classList.remove('drag-over'); }
+function dropFile(e) {
+  e.preventDefault(); dragLeave(e);
+  const file = e.dataTransfer.files[0];
+  if (file) showFile(file);
+}
+function handleFile(input) { if (input.files[0]) showFile(input.files[0]); }
+function showFile(file) {
+  document.getElementById('dropIcon').textContent = '✅';
+  document.getElementById('dropTitle').textContent = file.name;
+  document.getElementById('dropSubtitle').textContent = `${(file.size/1024).toFixed(1)} KB · Click to change`;
+}
+
+// ─── MISC ────────────────────────────────────────────────────
+function editPrompt(title) { showToast(`Opening editor for: ${title}`); }
+function deletePrompt(title) {
+  if (confirm(`Delete "${title}"?`)) showToast(`Deleted: ${title}`, 'error');
+}
+function exportCSV() {
+  const csv = 'Title,Category,Price,Sales,Revenue,Rating,Status\n' + prompts.map(p => `${p.title},${p.cat},${p.price},${p.sales},${p.revenue},${p.rating},${p.status}`).join('\n');
+  const blob = new Blob([csv], {type:'text/csv'});
+  const a = document.createElement('a'); a.href = URL.createObjectURL(blob); a.download = 'my-prompts.csv'; a.click();
+  showToast('CSV exported! 📥');
+}
+function logout() { window.location = 'login.html'; }
+
+function showToast(msg, type='success') {
+  const t = document.getElementById('toast'); document.getElementById('toastMsg').textContent = msg;
+  t.className = `toast ${type}`; t.classList.remove('hidden'); setTimeout(()=>t.classList.add('hidden'),3500);
+}
+
+// ─── TITLE COUNTER ────────────────────────────────────────────
+document.getElementById('pTitle')?.addEventListener('input', function() {
+  document.getElementById('titleCount').textContent = this.value.length;
+});
+
+// ─── SIDEBAR TABS ─────────────────────────────────────────────
+document.querySelectorAll('.sidebar-item[data-tab]').forEach(item => {
+  item.addEventListener('click', (e) => {
+    e.preventDefault();
+    document.querySelectorAll('.sidebar-item').forEach(i=>i.classList.remove('active'));
+    item.classList.add('active');
+    const tab = item.dataset.tab;
+    if (tab === 'upload') openUploadModal();
+  });
+});
+
+// ─── INIT ─────────────────────────────────────────────────────
+document.addEventListener('DOMContentLoaded', () => {
+  initCharts(); renderTable(); renderTransactions();
+});
+</script>
+</body>
+</html>

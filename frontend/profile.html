@@ -1,0 +1,273 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>My Profile — PromptVault</title>
+  <link href="https://fonts.googleapis.com/css2?family=Syne:wght@400;600;700;800&family=DM+Sans:wght@300;400;500;600&display=swap" rel="stylesheet" />
+  <script src="https://cdn.tailwindcss.com"></script>
+  <link rel="stylesheet" href="css/style.css" />
+</head>
+<body class="bg-[#0F0F23] text-[#F8FAFC]">
+
+<!-- NAVBAR -->
+<nav id="navbar" class="glass-nav fixed top-0 w-full z-50">
+  <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 flex items-center justify-between h-16">
+    <a href="index.html" class="flex items-center gap-3">
+      <div class="w-9 h-9 rounded-xl bg-gradient-to-br from-[#6366F1] to-[#A5B4FC] flex items-center justify-center">
+        <svg class="w-5 h-5 text-white" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 10V3L4 14h7v7l9-11h-7z"/></svg>
+      </div>
+      <span class="font-display font-800 text-xl">Prompt<span class="text-[#6366F1]">Vault</span></span>
+    </a>
+    <div class="flex items-center gap-3">
+      <a href="marketplace.html" class="glass-btn text-sm px-4 py-2 rounded-xl">Marketplace</a>
+      <button class="glass-btn text-sm px-4 py-2 rounded-xl text-rose-400" onclick="logout()">Sign Out</button>
+    </div>
+  </div>
+</nav>
+
+<main class="pt-24 pb-20 max-w-5xl mx-auto px-4 sm:px-6 lg:px-8">
+  <!-- Profile Header -->
+  <div class="profile-header mb-8 animate-fade-up">
+    <div class="profile-avatar-lg" id="userAvatarLg">🧑</div>
+    <div class="flex-1">
+      <div class="flex items-center gap-3 flex-wrap">
+        <h1 class="font-display font-800 text-2xl" id="profileName">Alex Chen</h1>
+        <span class="status-badge approved">✓ Verified</span>
+        <span class="text-xs px-2 py-1 rounded-full" style="background:rgba(99,102,241,0.15);color:#A5B4FC" id="profileRole">Seller</span>
+      </div>
+      <div class="text-slate-400 text-sm mt-1" id="profileEmail">alex@example.com</div>
+      <div class="flex flex-wrap gap-4 mt-3 text-sm">
+        <span class="text-slate-400">📅 Member since Jan 2024</span>
+        <span class="text-slate-400">🛒 <strong class="text-white" id="purchaseCount">18</strong> purchases</span>
+        <span class="text-slate-400">⭐ <strong class="text-white">4.9</strong> avg rating</span>
+      </div>
+    </div>
+    <button class="glass-btn text-sm px-5 py-2 rounded-xl self-start" onclick="openEditModal()">Edit Profile</button>
+  </div>
+
+  <!-- Balance Card -->
+  <div class="balance-card mb-8 animate-fade-up" style="animation-delay:0.1s">
+    <div class="flex items-center justify-between flex-wrap gap-4">
+      <div>
+        <div class="text-emerald-400 text-xs font-semibold uppercase tracking-widest mb-1">💰 Wallet Balance</div>
+        <div class="font-display font-800 text-3xl text-emerald-300" id="walletBalance">$25.00</div>
+        <div class="text-slate-400 text-sm mt-1">Available for purchases · Withdrawable</div>
+      </div>
+      <div class="flex gap-3">
+        <button class="btn-primary px-5 py-2.5 rounded-xl text-sm font-semibold" onclick="openTopUpModal()">+ Add Funds</button>
+        <button class="glass-btn text-sm px-5 py-2.5 rounded-xl font-medium" onclick="openWithdrawModal()">Withdraw →</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- Tabs -->
+  <div class="flex gap-1 glass-card p-1 rounded-2xl mb-8 inline-flex animate-fade-up" style="animation-delay:0.15s">
+    <button class="profile-tab active" id="tab-purchases" onclick="switchTab('purchases')">🛒 Purchases</button>
+    <button class="profile-tab" id="tab-wishlist" onclick="switchTab('wishlist')">♡ Wishlist</button>
+    <button class="profile-tab" id="tab-referrals" onclick="switchTab('referrals')">🎁 Referrals</button>
+    <button class="profile-tab" id="tab-settings" onclick="switchTab('settings')">⚙️ Settings</button>
+  </div>
+
+  <!-- Tab: Purchases -->
+  <div id="pane-purchases" class="space-y-4">
+    <div class="flex items-center justify-between mb-2">
+      <h2 class="font-display font-700 text-lg">Purchase History</h2>
+      <button class="glass-btn text-xs px-3 py-1.5 rounded-lg" onclick="exportPurchases()">📥 Export</button>
+    </div>
+    <div id="purchaseList" class="space-y-3"></div>
+  </div>
+
+  <!-- Tab: Wishlist -->
+  <div id="pane-wishlist" class="hidden">
+    <h2 class="font-display font-700 text-lg mb-5">Saved Prompts</h2>
+    <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4" id="wishlistGrid"></div>
+  </div>
+
+  <!-- Tab: Referrals -->
+  <div id="pane-referrals" class="hidden">
+    <div class="glass-card p-6 mb-6">
+      <div class="text-4xl mb-3">🎁</div>
+      <h2 class="font-display font-700 text-xl mb-2">Refer & Earn</h2>
+      <p class="text-slate-400 text-sm mb-5">Earn $5 for every friend who makes their first purchase. No limit!</p>
+      <div class="referral-link-box mb-4">
+        <input type="text" value="https://promptvault.io/ref/ALEX2024" id="refLinkInput" readonly class="referral-link-input" />
+        <button onclick="copyRef()" class="btn-primary px-4 py-2 rounded-lg text-sm font-semibold">Copy</button>
+      </div>
+      <div class="grid grid-cols-3 gap-4 mt-6">
+        <div class="text-center">
+          <div class="font-display font-800 text-2xl text-[#6366F1]">12</div>
+          <div class="text-slate-400 text-xs mt-1">Friends Invited</div>
+        </div>
+        <div class="text-center">
+          <div class="font-display font-800 text-2xl text-emerald-400">8</div>
+          <div class="text-slate-400 text-xs mt-1">Converted</div>
+        </div>
+        <div class="text-center">
+          <div class="font-display font-800 text-2xl text-amber-400">$40</div>
+          <div class="text-slate-400 text-xs mt-1">Total Earned</div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Tab: Settings -->
+  <div id="pane-settings" class="hidden">
+    <div class="glass-card p-6 space-y-5">
+      <h2 class="font-display font-700 text-lg mb-2">Account Settings</h2>
+      <div class="form-group"><label class="form-label">Full Name</label><input class="form-input" value="Alex Chen" /></div>
+      <div class="form-group"><label class="form-label">Email</label><input class="form-input" type="email" value="alex@example.com" /></div>
+      <div class="form-group"><label class="form-label">New Password</label><input class="form-input" type="password" placeholder="Leave blank to keep current" /></div>
+      <div class="form-group">
+        <label class="form-label">Language</label>
+        <select class="form-input"><option>English</option><option>বাংলা</option></select>
+      </div>
+      <div class="flex items-center justify-between py-3 border-b border-white/06">
+        <div><div class="text-sm font-medium">Email Notifications</div><div class="text-xs text-slate-500">Purchases, reviews, earnings</div></div>
+        <label class="toggle"><input type="checkbox" checked /><span class="toggle-slider"></span></label>
+      </div>
+      <div class="flex items-center justify-between py-3 border-b border-white/06">
+        <div><div class="text-sm font-medium">Dark Mode</div><div class="text-xs text-slate-500">Toggle theme preference</div></div>
+        <label class="toggle"><input type="checkbox" checked onchange="toggleTheme()" /><span class="toggle-slider"></span></label>
+      </div>
+      <button class="btn-primary px-6 py-2.5 rounded-xl font-semibold text-sm" onclick="saveSettings()">Save Changes</button>
+      <div class="pt-4 border-t border-white/06">
+        <button class="text-rose-400 hover:text-rose-300 text-sm font-medium transition-colors" onclick="deleteAccount()">Delete Account</button>
+      </div>
+    </div>
+  </div>
+</main>
+
+<!-- Top-Up Modal -->
+<div id="topUpModal" class="modal-overlay hidden" onclick="closeModal('topUpModal',event)">
+  <div class="modal-box max-w-sm">
+    <button onclick="closeModal('topUpModal')" class="modal-close">✕</button>
+    <div class="text-3xl mb-3">💳</div>
+    <h3 class="font-display font-700 text-xl mb-5">Add Funds</h3>
+    <div class="grid grid-cols-3 gap-3 mb-5">
+      <button class="amount-btn active" onclick="selectAmount(this,5)">$5</button>
+      <button class="amount-btn" onclick="selectAmount(this,10)">$10</button>
+      <button class="amount-btn" onclick="selectAmount(this,25)">$25</button>
+      <button class="amount-btn" onclick="selectAmount(this,50)">$50</button>
+      <button class="amount-btn" onclick="selectAmount(this,100)">$100</button>
+      <button class="amount-btn" onclick="selectAmount(this,'custom')">Custom</button>
+    </div>
+    <input class="form-input mb-4 hidden" type="number" id="customAmount" placeholder="Enter amount ($2–$500)" min="2" max="500" />
+    <button class="btn-primary w-full py-3 rounded-xl font-bold" onclick="confirmTopUp()">Add Funds → Stripe</button>
+  </div>
+</div>
+
+<div id="toast" class="toast hidden"><span id="toastMsg"></span></div>
+
+<style>
+.profile-tab { padding:8px 18px; border-radius:12px; font-size:0.875rem; font-weight:600; cursor:pointer; transition:all 0.3s; background:transparent; border:none; color:var(--slate-text); }
+.profile-tab.active { background:rgba(99,102,241,0.15); color:var(--indigo-light); }
+.profile-tab:hover { color:white; }
+.toggle { position:relative; display:inline-flex; width:44px; height:24px; }
+.toggle input { opacity:0; width:0; height:0; }
+.toggle-slider { position:absolute; inset:0; background:rgba(255,255,255,0.1); border-radius:12px; cursor:pointer; transition:0.3s; }
+.toggle-slider::before { content:''; position:absolute; width:18px; height:18px; left:3px; bottom:3px; background:white; border-radius:50%; transition:0.3s; }
+.toggle input:checked + .toggle-slider { background:var(--indigo); }
+.toggle input:checked + .toggle-slider::before { transform:translateX(20px); }
+.amount-btn { padding:10px; border-radius:10px; background:rgba(255,255,255,0.05); border:1px solid rgba(255,255,255,0.1); color:var(--pearl); font-weight:600; cursor:pointer; transition:all 0.3s; }
+.amount-btn:hover, .amount-btn.active { background:rgba(99,102,241,0.15); border-color:var(--indigo); }
+</style>
+
+<script>
+const purchases = [
+  { id:1, title:'Cold Email Generator', cat:'ChatGPT · Marketing', price:9.99, date:'Jan 16, 2025', color:'#6366F1' },
+  { id:4, title:'Viral Twitter Thread Writer', cat:'ChatGPT · Content', price:7.99, date:'Jan 10, 2025', color:'#EC4899' },
+  { id:5, title:'Startup Pitch Deck Builder', cat:'GPT-4 · Business', price:12.99, date:'Dec 28, 2024', color:'#06B6D4' },
+  { id:6, title:'SEO Blog Writer Pro', cat:'ChatGPT · Writing', price:8.99, date:'Dec 15, 2024', color:'#8B5CF6' },
+];
+const wishlist = [
+  { id:2, title:'Cinematic Portrait Master', cat:'Midjourney · Art', price:14.99, color:'#10B981' },
+  { id:3, title:'Full-Stack Dev Assistant', cat:'Claude · Coding', price:19.99, color:'#F59E0B' },
+  { id:7, title:'YouTube Script Creator', cat:'GPT-4 · Content', price:11.99, color:'#EF4444' },
+];
+
+function renderPurchases() {
+  document.getElementById('purchaseList').innerHTML = purchases.map(p => `
+    <div class="purchase-card">
+      <div class="w-10 h-10 rounded-xl flex items-center justify-center text-lg flex-shrink-0" style="background:${p.color}22;border:1px solid ${p.color}33">⚡</div>
+      <div class="flex-1 min-w-0">
+        <div class="font-semibold text-sm">${p.title}</div>
+        <div class="text-slate-500 text-xs">${p.cat} · Purchased ${p.date}</div>
+      </div>
+      <div class="flex items-center gap-3">
+        <span class="text-[#6366F1] font-bold">$${p.price}</span>
+        <button class="glass-btn text-xs px-3 py-1.5 rounded-lg" onclick="downloadPrompt(${p.id})">📋 Copy</button>
+      </div>
+    </div>
+  `).join('');
+}
+
+function renderWishlist() {
+  document.getElementById('wishlistGrid').innerHTML = wishlist.map(p => `
+    <div class="prompt-card visible cursor-pointer" onclick="window.location='prompt-detail.html?id=${p.id}'">
+      <div class="prompt-card-badge" style="background:${p.color}22;color:${p.color}">♥ Saved</div>
+      <div class="prompt-card-category">${p.cat}</div>
+      <h3 class="prompt-card-title">${p.title}</h3>
+      <div class="prompt-card-footer">
+        <div class="prompt-card-price">$${p.price}</div>
+        <button class="glass-btn text-xs px-2 py-1 rounded-lg" onclick="event.stopPropagation();removeWishlist(${p.id},this)">Remove ✕</button>
+      </div>
+      <button class="prompt-card-buy" onclick="event.stopPropagation();addToCart(${p.id},'${p.title}',${p.price})" style="--btn-accent:${p.color}">Add to Cart</button>
+    </div>
+  `).join('');
+}
+
+function switchTab(tab) {
+  ['purchases','wishlist','referrals','settings'].forEach(t => {
+    document.getElementById(`tab-${t}`).classList.toggle('active', t===tab);
+    document.getElementById(`pane-${t}`).classList.toggle('hidden', t!==tab);
+  });
+}
+
+function openTopUpModal() { document.getElementById('topUpModal').classList.remove('hidden'); }
+function openWithdrawModal() { showToast('💸 Withdrawal feature coming soon!'); }
+function openEditModal() { switchTab('settings'); }
+function closeModal(id, e) { if (!e || e.target===document.getElementById(id)) document.getElementById(id).classList.add('hidden'); }
+
+let selectedTopUpAmount = 5;
+function selectAmount(btn, val) {
+  document.querySelectorAll('.amount-btn').forEach(b=>b.classList.remove('active'));
+  btn.classList.add('active');
+  const custom = document.getElementById('customAmount');
+  if (val === 'custom') { custom.classList.remove('hidden'); selectedTopUpAmount = null; }
+  else { custom.classList.add('hidden'); selectedTopUpAmount = val; }
+}
+function confirmTopUp() {
+  const amount = selectedTopUpAmount || parseInt(document.getElementById('customAmount').value);
+  if (!amount || amount < 2) { showToast('Enter a valid amount', 'error'); return; }
+  document.getElementById('topUpModal').classList.add('hidden');
+  showToast(`✓ $${amount} added to your wallet via Stripe!`);
+  document.getElementById('walletBalance').textContent = `$${(25 + amount).toFixed(2)}`;
+}
+
+function downloadPrompt(id) { showToast('📋 Prompt copied to clipboard!'); }
+function removeWishlist(id, btn) { btn.closest('.prompt-card').remove(); showToast('Removed from wishlist'); }
+function addToCart(id, title, price) { let c=JSON.parse(localStorage.getItem('pv_cart')||'[]'); if(!c.find(i=>i.id===id)){c.push({id,title,price});localStorage.setItem('pv_cart',JSON.stringify(c));} showToast(`✓ "${title}" added to cart`); }
+function exportPurchases() { showToast('📥 Purchase history exported!'); }
+function saveSettings() { showToast('✓ Settings saved!'); }
+function deleteAccount() { if(confirm('Are you sure? This cannot be undone.')) { localStorage.clear(); window.location='index.html'; } }
+function logout() { localStorage.removeItem('pv_token'); localStorage.removeItem('pv_user'); window.location='login.html'; }
+function copyRef() { navigator.clipboard.writeText(document.getElementById('refLinkInput').value); showToast('🔗 Referral link copied!'); }
+
+function showToast(msg, type='success') {
+  const t = document.getElementById('toast'); document.getElementById('toastMsg').textContent = msg;
+  t.className = `toast ${type}`; t.classList.remove('hidden'); setTimeout(()=>t.classList.add('hidden'),3000);
+}
+
+document.addEventListener('DOMContentLoaded', () => {
+  const user = JSON.parse(localStorage.getItem('pv_user') || '{}');
+  if (user.name) document.getElementById('profileName').textContent = user.name;
+  if (user.email) document.getElementById('profileEmail').textContent = user.email;
+  if (user.role) document.getElementById('profileRole').textContent = user.role.charAt(0).toUpperCase()+user.role.slice(1);
+  if (user.balance) document.getElementById('walletBalance').textContent = `$${parseFloat(user.balance).toFixed(2)}`;
+  renderPurchases(); renderWishlist();
+  window.addEventListener('scroll', () => document.getElementById('navbar').classList.toggle('scrolled', window.scrollY>50));
+});
+</script>
+</body>
+</html>

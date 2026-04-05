@@ -1,0 +1,291 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Admin Dashboard — PromptVault</title>
+  <link href="https://fonts.googleapis.com/css2?family=Syne:wght@400;600;700;800&family=DM+Sans:wght@300;400;500;600&display=swap" rel="stylesheet" />
+  <script src="https://cdn.tailwindcss.com"></script>
+  <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+  <link rel="stylesheet" href="css/style.css" />
+</head>
+<body class="bg-[#0F0F23] text-[#F8FAFC]">
+
+<div class="flex min-h-screen">
+  <!-- SIDEBAR -->
+  <aside class="hidden lg:flex flex-col w-64 fixed h-full border-r border-white/06" style="background:rgba(10,10,20,0.98)">
+    <div class="p-6 border-b border-white/06">
+      <div class="flex items-center gap-3">
+        <div class="w-9 h-9 rounded-xl bg-gradient-to-br from-rose-500 to-rose-700 flex items-center justify-center">🛡️</div>
+        <div><div class="font-display font-700 text-sm">Admin Panel</div><div class="text-rose-400 text-xs">PromptVault</div></div>
+      </div>
+    </div>
+    <nav class="flex-1 p-4">
+      <a href="#" class="sidebar-item active">📊 Overview</a>
+      <a href="#" class="sidebar-item" onclick="showSection('moderation')">🔍 Moderation</a>
+      <a href="#" class="sidebar-item" onclick="showSection('users')">👥 Users</a>
+      <a href="#" class="sidebar-item" onclick="showSection('revenue')">💰 Revenue</a>
+      <a href="#" class="sidebar-item" onclick="showSection('reports')">📑 Reports</a>
+      <a href="index.html" class="sidebar-item mt-4">← Back to Site</a>
+    </nav>
+    <div class="p-4 border-t border-white/06">
+      <div class="flex items-center gap-2 glass-card p-3 rounded-xl">
+        <div class="w-8 h-8 rounded-full bg-rose-500/20 flex items-center justify-center text-sm">🛡️</div>
+        <div><div class="text-sm font-semibold">Admin</div><div class="text-rose-400 text-xs">Superuser</div></div>
+      </div>
+    </div>
+  </aside>
+
+  <main class="flex-1 lg:ml-64 p-6 lg:p-8 overflow-x-hidden">
+    <div class="flex items-center justify-between mb-8">
+      <div>
+        <h1 class="font-display font-800 text-2xl lg:text-3xl">Admin Dashboard</h1>
+        <p class="text-slate-400 text-sm mt-1">Platform overview · Last updated: just now</p>
+      </div>
+      <div class="flex gap-3">
+        <button class="glass-btn text-sm px-4 py-2 rounded-xl" onclick="exportReport()">📥 Export Report</button>
+        <button class="btn-primary px-4 py-2 rounded-xl text-sm font-semibold" onclick="refreshData()">🔄 Refresh</button>
+      </div>
+    </div>
+
+    <!-- KPI CARDS -->
+    <div class="grid grid-cols-2 lg:grid-cols-4 gap-4 mb-8">
+      <div class="stat-card border-l-4 border-[#6366F1]">
+        <div class="stat-label">Total Revenue</div>
+        <div class="stat-value">$142.8K</div>
+        <div class="flex items-center gap-2 mt-2"><span class="stat-change up">+31%</span><span class="text-slate-500 text-xs">vs last month</span></div>
+      </div>
+      <div class="stat-card border-l-4 border-emerald-500">
+        <div class="stat-label">Active Users</div>
+        <div class="stat-value">32,410</div>
+        <div class="flex items-center gap-2 mt-2"><span class="stat-change up">+18%</span><span class="text-slate-500 text-xs">vs last month</span></div>
+      </div>
+      <div class="stat-card border-l-4 border-amber-500">
+        <div class="stat-label">Prompts Listed</div>
+        <div class="stat-value">12,450</div>
+        <div class="flex items-center gap-2 mt-2"><span class="stat-change up">+240</span><span class="text-slate-500 text-xs">this week</span></div>
+      </div>
+      <div class="stat-card border-l-4 border-rose-500">
+        <div class="stat-label">Pending Review</div>
+        <div class="stat-value text-amber-400">28</div>
+        <div class="flex items-center gap-2 mt-2"><span class="stat-change down">Needs action</span></div>
+      </div>
+    </div>
+
+    <!-- CHARTS -->
+    <div class="grid lg:grid-cols-3 gap-6 mb-8">
+      <div class="chart-container lg:col-span-2">
+        <div class="chart-title">Monthly Revenue (2025)</div>
+        <canvas id="adminRevenueChart" height="160"></canvas>
+      </div>
+      <div class="chart-container">
+        <div class="chart-title">User Roles</div>
+        <canvas id="userPieChart" height="180"></canvas>
+        <div class="mt-3 space-y-1">
+          <div class="flex justify-between text-xs"><span class="text-slate-400">🛒 Buyers</span><span class="font-semibold">28,100 (86%)</span></div>
+          <div class="flex justify-between text-xs"><span class="text-slate-400">💰 Sellers</span><span class="font-semibold">4,200 (13%)</span></div>
+          <div class="flex justify-between text-xs"><span class="text-slate-400">🛡️ Admins</span><span class="font-semibold">110 (0.3%)</span></div>
+        </div>
+      </div>
+    </div>
+
+    <!-- MODERATION QUEUE -->
+    <div class="glass-card p-6 mb-8">
+      <div class="chart-title mb-4">
+        🔍 Moderation Queue
+        <div class="flex gap-2">
+          <span class="status-badge pending">28 Pending</span>
+          <button class="glass-btn text-xs px-3 py-1.5 rounded-lg" onclick="approveAll()">Approve All ✓</button>
+        </div>
+      </div>
+      <div class="overflow-x-auto">
+        <table class="data-table">
+          <thead>
+            <tr>
+              <th>Prompt Title</th>
+              <th>Seller</th>
+              <th>Category</th>
+              <th>Price</th>
+              <th>Submitted</th>
+              <th>Risk</th>
+              <th>Actions</th>
+            </tr>
+          </thead>
+          <tbody id="moderationTable"></tbody>
+        </table>
+      </div>
+    </div>
+
+    <!-- USERS TABLE -->
+    <div class="glass-card p-6 mb-8">
+      <div class="chart-title mb-4">
+        👥 Recent Users
+        <input class="form-input text-sm py-1.5 px-3 rounded-lg w-48" type="text" placeholder="Search users..." id="userSearch" oninput="filterUsers(this.value)" />
+      </div>
+      <div class="overflow-x-auto">
+        <table class="data-table">
+          <thead>
+            <tr>
+              <th>Name</th>
+              <th>Email</th>
+              <th>Role</th>
+              <th>Balance</th>
+              <th>Joined</th>
+              <th>Status</th>
+              <th>Actions</th>
+            </tr>
+          </thead>
+          <tbody id="usersTable"></tbody>
+        </table>
+      </div>
+    </div>
+
+    <!-- PLATFORM METRICS -->
+    <div class="grid grid-cols-2 lg:grid-cols-4 gap-4">
+      <div class="glass-card p-4 text-center">
+        <div class="text-3xl mb-2">⚡</div>
+        <div class="font-display font-800 text-xl">99.8%</div>
+        <div class="text-slate-400 text-xs mt-1">Uptime</div>
+      </div>
+      <div class="glass-card p-4 text-center">
+        <div class="text-3xl mb-2">🚀</div>
+        <div class="font-display font-800 text-xl">1.2s</div>
+        <div class="text-slate-400 text-xs mt-1">Avg Load Time</div>
+      </div>
+      <div class="glass-card p-4 text-center">
+        <div class="text-3xl mb-2">💳</div>
+        <div class="font-display font-800 text-xl">$4.89</div>
+        <div class="text-slate-400 text-xs mt-1">Avg Order Value</div>
+      </div>
+      <div class="glass-card p-4 text-center">
+        <div class="text-3xl mb-2">🔄</div>
+        <div class="font-display font-800 text-xl">68%</div>
+        <div class="text-slate-400 text-xs mt-1">Repeat Buyers</div>
+      </div>
+    </div>
+  </main>
+</div>
+
+<div id="toast" class="toast hidden"><span id="toastMsg"></span></div>
+
+<script>
+// CHARTS
+document.addEventListener('DOMContentLoaded', () => {
+  Chart.defaults.color = '#94A3B8';
+  Chart.defaults.borderColor = 'rgba(255,255,255,0.06)';
+
+  new Chart(document.getElementById('adminRevenueChart').getContext('2d'), {
+    type: 'bar',
+    data: {
+      labels: ['Jan','Feb','Mar','Apr','May','Jun','Jul','Aug','Sep','Oct','Nov','Dec'],
+      datasets: [
+        { label:'Revenue', data:[8200,9800,11200,10100,13400,12800,15200,14100,16800,18200,19500,21600], backgroundColor:'rgba(99,102,241,0.7)', borderRadius:6 },
+        { label:'Payouts', data:[5740,6860,7840,7070,9380,8960,10640,9870,11760,12740,13650,15120], backgroundColor:'rgba(16,185,129,0.5)', borderRadius:6 }
+      ]
+    },
+    options: { responsive:true, plugins:{ legend:{ labels:{ color:'#94A3B8', boxWidth:12 } } }, scales:{ x:{ grid:{ color:'rgba(255,255,255,0.04)' } }, y:{ grid:{ color:'rgba(255,255,255,0.04)' }, ticks:{ callback:v=>'$'+v.toLocaleString() } } } }
+  });
+
+  new Chart(document.getElementById('userPieChart').getContext('2d'), {
+    type: 'doughnut',
+    data: {
+      labels: ['Buyers','Sellers','Admins'],
+      datasets: [{ data:[86,13,1], backgroundColor:['#6366F1','#10B981','#EF4444'], borderWidth:0 }]
+    },
+    options: { responsive:true, plugins:{ legend:{ display:false } }, cutout:'70%' }
+  });
+
+  renderModerationTable();
+  renderUsersTable();
+});
+
+const moderationData = [
+  { title:'LinkedIn Bio Optimizer', seller:'priya.s', cat:'ChatGPT', price:'$7.99', date:'2h ago', risk:'Low' },
+  { title:'Fantasy Map Generator', seller:'yuki.t', cat:'Midjourney', price:'$12.99', date:'4h ago', risk:'Low' },
+  { title:'Crypto Trading Bot Prompt', seller:'anon_user', cat:'ChatGPT', price:'$19.99', date:'6h ago', risk:'High' },
+  { title:'Email Sequence Writer', seller:'sofia.r', cat:'GPT-4', price:'$9.99', date:'8h ago', risk:'Low' },
+  { title:'3D Product Render', seller:'marcus.w', cat:'Midjourney', price:'$14.99', date:'12h ago', risk:'Low' },
+];
+
+function renderModerationTable() {
+  const riskColor = { Low:'approved', High:'rejected', Med:'pending' };
+  document.getElementById('moderationTable').innerHTML = moderationData.map((r,i) => `
+    <tr id="modRow${i}">
+      <td class="text-white font-medium">${r.title}</td>
+      <td>${r.seller}</td>
+      <td>${r.cat}</td>
+      <td class="text-[#6366F1] font-semibold">${r.price}</td>
+      <td>${r.date}</td>
+      <td><span class="status-badge ${riskColor[r.risk]}">${r.risk}</span></td>
+      <td>
+        <div class="flex gap-2">
+          <button class="text-xs px-3 py-1 rounded-lg font-semibold transition-all" style="background:rgba(16,185,129,0.15);color:#10B981;border:1px solid rgba(16,185,129,0.2)" onclick="approvePrompt(${i})">Approve</button>
+          <button class="text-xs px-3 py-1 rounded-lg font-semibold transition-all" style="background:rgba(239,68,68,0.15);color:#EF4444;border:1px solid rgba(239,68,68,0.2)" onclick="rejectPrompt(${i})">Reject</button>
+          <button class="glass-btn text-xs px-2 py-1 rounded-lg" onclick="previewPrompt('${r.title}')">View</button>
+        </div>
+      </td>
+    </tr>
+  `).join('');
+}
+
+const usersData = [
+  { name:'Alex Chen', email:'alex@example.com', role:'seller', balance:'$8,420', joined:'Jan 2024', status:'active' },
+  { name:'Priya Sharma', email:'priya@example.com', role:'seller', balance:'$6,100', joined:'Feb 2024', status:'active' },
+  { name:'James Miller', email:'james@example.com', role:'buyer', balance:'$15.50', joined:'Mar 2024', status:'active' },
+  { name:'Yuki Tanaka', email:'yuki@example.com', role:'seller', balance:'$4,900', joined:'Apr 2024', status:'active' },
+  { name:'Tom Lewis', email:'tom@example.com', role:'buyer', balance:'$0.00', joined:'Jan 2025', status:'suspended' },
+];
+
+function renderUsersTable(filter='') {
+  const filtered = filter ? usersData.filter(u => u.name.toLowerCase().includes(filter.toLowerCase()) || u.email.includes(filter)) : usersData;
+  document.getElementById('usersTable').innerHTML = filtered.map((u,i) => `
+    <tr>
+      <td class="font-medium text-white">${u.name}</td>
+      <td>${u.email}</td>
+      <td><span class="text-xs px-2 py-0.5 rounded-full" style="background:rgba(99,102,241,0.1);color:#A5B4FC">${u.role}</span></td>
+      <td class="text-emerald-400">${u.balance}</td>
+      <td>${u.joined}</td>
+      <td><span class="status-badge ${u.status==='active'?'approved':'rejected'}">${u.status}</span></td>
+      <td>
+        <div class="flex gap-2">
+          <button class="glass-btn text-xs px-2 py-1 rounded-lg" onclick="viewUser('${u.email}')">View</button>
+          <button class="glass-btn text-xs px-2 py-1 rounded-lg text-rose-400" onclick="suspendUser('${u.email}')">Suspend</button>
+        </div>
+      </td>
+    </tr>
+  `).join('');
+}
+
+function approvePrompt(i) {
+  document.getElementById(`modRow${i}`).style.opacity='0.4';
+  showToast('✓ Prompt approved and published!');
+}
+function rejectPrompt(i) {
+  document.getElementById(`modRow${i}`).style.opacity='0.4';
+  showToast('Prompt rejected and seller notified.', 'error');
+}
+function approveAll() {
+  document.querySelectorAll('#moderationTable tr').forEach(r => r.style.opacity='0.4');
+  showToast('✓ All 28 prompts approved!');
+}
+function previewPrompt(title) { showToast(`Preview: "${title}" (opens in new tab)`); }
+function filterUsers(val) { renderUsersTable(val); }
+function viewUser(email) { showToast(`Viewing profile: ${email}`); }
+function suspendUser(email) { if(confirm(`Suspend ${email}?`)) showToast(`User suspended: ${email}`, 'error'); }
+function exportReport() {
+  showToast('📥 Generating report... Download will start shortly.');
+  setTimeout(() => {
+    const csv = 'Metric,Value\nTotal Revenue,$142,800\nActive Users,32410\nPrompts Listed,12450\nPending Review,28';
+    const b = new Blob([csv],{type:'text/csv'}); const a = document.createElement('a');
+    a.href=URL.createObjectURL(b); a.download='promptvault-report.csv'; a.click();
+  }, 1000);
+}
+function refreshData() { showToast('🔄 Data refreshed!'); }
+
+function showToast(msg, type='success') {
+  const t = document.getElementById('toast'); document.getElementById('toastMsg').textContent = msg;
+  t.className = `toast ${type}`; t.classList.remove('hidden'); setTimeout(()=>t.classList.add('hidden'),3500);
+}
+</script>
+</body>
+</html>
