@@ -2,6 +2,18 @@
 
 > A full-stack, production-ready AI Prompt Marketplace built with Java Spring Boot, MySQL, Vanilla JS, and Tailwind CSS. Glassy UI, Stripe + PayPal payments, JWT auth, seller dashboard, admin panel.
 
+**🌐 Live Demo (GitHub Pages):** https://rakibulai.github.io/ai-prompt-marketplace/
+
+| Page | URL |
+|---|---|
+| Home | [`/`](https://rakibulai.github.io/ai-prompt-marketplace/) |
+| Marketplace | [`/marketplace.html`](https://rakibulai.github.io/ai-prompt-marketplace/marketplace.html) |
+| Profile | [`/profile.html`](https://rakibulai.github.io/ai-prompt-marketplace/profile.html) |
+| Login | [`/login.html`](https://rakibulai.github.io/ai-prompt-marketplace/login.html) |
+| Sign Up | [`/signup.html`](https://rakibulai.github.io/ai-prompt-marketplace/signup.html) |
+
+> **Note:** GitHub Pages serves the `frontend/` directory as the site root via the `Deploy to GitHub Pages` workflow (`.github/workflows/pages.yml`). To enable it, go to **Settings → Pages → Source → GitHub Actions**.
+
 ---
 
 ## 🗂 File Structure
@@ -203,6 +215,17 @@ border-radius: 24px;
 ---
 
 ## 🚀 Deployment
+
+### GitHub Pages (Frontend — automatic)
+The repository includes a GitHub Actions workflow (`.github/workflows/pages.yml`) that automatically deploys the `frontend/` directory to GitHub Pages on every push to `main`.
+
+**One-time setup:**
+1. Go to your repo → **Settings → Pages**
+2. Under **Build and deployment → Source**, select **GitHub Actions**
+3. Push to `main` — the workflow handles the rest
+
+The live site will be available at:
+`https://<your-github-username>.github.io/ai-prompt-marketplace/`
 
 ### Render.com
 ```bash
