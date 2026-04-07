@@ -525,4 +525,7 @@ public class PromptController {
             @RequestParam(required = false) String search,
             @RequestParam(required = false) String category,
             @RequestParam(required = false) BigDecimal minPrice,
-            @Requ
+            @RequestParam(required = false) String maxPrice) {
+        return promptRepo.findAll();
+    }
+}
