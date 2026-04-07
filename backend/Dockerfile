@@ -1,5 +1,7 @@
-FROM eclipse-temurin:17-jdk-alpine
+
+FROM maven:3.9.6-eclipse-temurin-21
 WORKDIR /app
-COPY target/*.jar app.jar
+COPY . .
+RUN ./mvnw clean package -DskipTests
 EXPOSE 8080
-ENTRYPOINT ["java", "-jar", "app.jar"]
+ENTRYPOINT ["java", "-jar", "target/app.jar"]
