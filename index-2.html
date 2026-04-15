@@ -1,0 +1,446 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="dark">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>PromptVault — Premium AI Prompts Marketplace</title>
+  <meta name="description" content="Buy and sell premium AI prompts for ChatGPT, Midjourney, Claude & more." />
+  <link href="https://fonts.googleapis.com/css2?family=Syne:wght@400;600;700;800&family=DM+Sans:wght@300;400;500;600&display=swap" rel="stylesheet" />
+  <script src="https://cdn.tailwindcss.com"></script>
+  <link rel="stylesheet" href="css/style.css" />
+</head>
+<body class="bg-[#0F0F23] text-[#F8FAFC] font-body overflow-x-hidden">
+
+<!-- NAVBAR -->
+<nav id="navbar" class="glass-nav fixed top-0 w-full z-50">
+  <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+    <div class="flex items-center justify-between h-16">
+      <a href="index.html" class="flex items-center gap-2">
+        <div class="w-9 h-9 rounded-xl bg-gradient-to-br from-[#6366F1] to-[#A5B4FC] flex items-center justify-center">
+          <svg class="w-5 h-5 text-white" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 10V3L4 14h7v7l9-11h-7z"/></svg>
+        </div>
+        <span class="font-display font-800 text-lg">Prompt<span class="text-[#6366F1]">Vault</span></span>
+      </a>
+      <div class="hidden lg:flex items-center gap-6">
+        <a href="marketplace.html" class="text-sm text-slate-300 hover:text-white">Marketplace</a>
+        <a href="seller-dashboard.html" class="text-sm text-slate-300 hover:text-white">Sell Prompts</a>
+      </div>
+      <div class="flex items-center gap-2" id="authButtons">
+        <button class="glass-btn text-xs px-2 py-1.5 rounded-lg" onclick="toggleLang()">EN / বাং</button>
+        <button class="glass-icon-btn w-8 h-8 rounded-lg flex items-center justify-center" onclick="toggleTheme()">☀️</button>
+        <a href="login.html" class="glass-btn text-sm px-3 py-2 rounded-xl font-medium">Login</a>
+        <a href="signup.html" class="btn-primary text-sm px-4 py-2 rounded-xl font-semibold">Sign Up</a>
+      </div>
+    </div>
+  </div>
+</nav>
+
+<!-- HERO -->
+<section class="pt-24 pb-16 relative overflow-hidden min-h-screen">
+  <div class="orb orb-1"></div>
+  <div class="orb orb-2"></div>
+  <div class="grid-overlay"></div>
+
+  <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+
+    <!-- Hero Content — Stack on mobile, side by side on desktop -->
+    <div class="flex flex-col lg:grid lg:grid-cols-2 gap-10 items-center">
+
+      <!-- LEFT TEXT -->
+      <div class="w-full">
+        <div class="inline-flex items-center gap-2 glass-badge mb-5 animate-fade-up">
+          <span class="w-2 h-2 bg-[#10B981] rounded-full animate-pulse"></span>
+          <span class="text-xs font-semibold text-emerald-400">🔥 10,000+ Prompts Live</span>
+        </div>
+
+        <h1 class="font-display font-800 leading-tight mb-5 animate-fade-up" style="font-size:clamp(2rem,8vw,4rem);animation-delay:0.1s">
+          Unlock the Best<br/>
+          <span class="gradient-text">AI Prompts</span><br/>
+          on Earth
+        </h1>
+
+        <p class="text-slate-300 text-base leading-relaxed mb-7 max-w-lg animate-fade-up" style="animation-delay:0.2s">
+          Buy premium prompts for ChatGPT, Midjourney, Claude & more. Boost productivity. Sell prompts & earn passive income.
+        </p>
+
+        <div class="flex flex-wrap gap-3 mb-8 animate-fade-up" style="animation-delay:0.3s">
+          <a href="marketplace.html" class="btn-primary-lg pulse-glow">
+            Browse Prompts →
+          </a>
+          <a href="seller-dashboard.html" class="btn-secondary-lg">
+            Start Selling →
+          </a>
+        </div>
+
+        <!-- TRUST STATS — Fixed layout -->
+        <div class="flex items-center gap-5 flex-wrap animate-fade-up" style="animation-delay:0.4s">
+          <div class="text-center">
+            <div class="font-display font-800 text-2xl text-white" data-count="12400">0</div>
+            <div class="text-xs text-slate-400 uppercase tracking-wider mt-0.5">Prompts</div>
+          </div>
+          <div class="w-px h-8 bg-white/10"></div>
+          <div class="text-center">
+            <div class="font-display font-800 text-2xl text-white" data-count="3200">0</div>
+            <div class="text-xs text-slate-400 uppercase tracking-wider mt-0.5">Creators</div>
+          </div>
+          <div class="w-px h-8 bg-white/10"></div>
+          <div class="text-center">
+            <div class="font-display font-800 text-2xl text-white"><span data-count="98">0</span>%</div>
+            <div class="text-xs text-slate-400 uppercase tracking-wider mt-0.5">Satisfaction</div>
+          </div>
+        </div>
+      </div>
+
+      <!-- RIGHT CAROUSEL -->
+      <div class="w-full animate-fade-up" style="animation-delay:0.3s">
+        <div class="relative" style="min-height:400px">
+          <div id="heroCarousel" class="relative" style="height:400px">
+
+            <!-- Slide 1 -->
+            <div class="carousel-slide active">
+              <div class="prompt-hero-card">
+                <div class="prompt-hero-badge">⚡ BESTSELLER</div>
+                <div class="prompt-hero-category">ChatGPT · Marketing</div>
+                <h3 class="prompt-hero-title">Ultimate Cold Email Generator</h3>
+                <p class="prompt-hero-desc">Generate 10x more replies with AI-crafted cold emails.</p>
+                <div class="prompt-hero-preview">
+                  <div class="preview-label">📄 Example Output</div>
+                  <div class="preview-text">"Hi [Name], I noticed you're scaling your SaaS — congrats! We helped similar companies increase demos by 340%..."</div>
+                </div>
+                <div class="prompt-hero-footer">
+                  <div class="prompt-hero-price">$9<span class="text-sm font-normal text-slate-400">.99</span></div>
+                  <span class="text-yellow-400 text-sm">★★★★★</span>
+                  <button class="btn-buy-sm" onclick="addToCart(1,'Cold Email Generator',9.99)">Buy Now</button>
+                </div>
+              </div>
+            </div>
+
+            <!-- Slide 2 -->
+            <div class="carousel-slide">
+              <div class="prompt-hero-card" style="--card-accent:#10B981">
+                <div class="prompt-hero-badge" style="background:rgba(16,185,129,0.2);color:#10B981">🎨 TOP RATED</div>
+                <div class="prompt-hero-category">Midjourney · Art</div>
+                <h3 class="prompt-hero-title">Cinematic Portrait Master</h3>
+                <p class="prompt-hero-desc">Create stunning cinematic portraits with Hollywood-grade lighting.</p>
+                <div class="prompt-hero-preview">
+                  <div class="preview-label">🖼️ Example Output</div>
+                  <div class="preview-text">"Cinematic portrait, golden hour, f/1.4 bokeh, 8K ultra-realistic, award-winning photography..."</div>
+                </div>
+                <div class="prompt-hero-footer">
+                  <div class="prompt-hero-price">$14<span class="text-sm font-normal text-slate-400">.99</span></div>
+                  <span class="text-yellow-400 text-sm">★★★★★</span>
+                  <button class="btn-buy-sm" style="--btn-color:#10B981" onclick="addToCart(2,'Cinematic Portrait',14.99)">Buy Now</button>
+                </div>
+              </div>
+            </div>
+
+            <!-- Slide 3 -->
+            <div class="carousel-slide">
+              <div class="prompt-hero-card" style="--card-accent:#F59E0B">
+                <div class="prompt-hero-badge" style="background:rgba(245,158,11,0.2);color:#F59E0B">🚀 NEW</div>
+                <div class="prompt-hero-category">Claude · Coding</div>
+                <h3 class="prompt-hero-title">Full-Stack Dev Assistant</h3>
+                <p class="prompt-hero-desc">Architect, code & debug full-stack apps 10x faster.</p>
+                <div class="prompt-hero-preview">
+                  <div class="preview-label">💻 Example Output</div>
+                  <div class="preview-text">"You are a senior full-stack architect. Analyze this requirement, design the DB schema, write clean code..."</div>
+                </div>
+                <div class="prompt-hero-footer">
+                  <div class="prompt-hero-price">$19<span class="text-sm font-normal text-slate-400">.99</span></div>
+                  <span class="text-yellow-400 text-sm">★★★★☆</span>
+                  <button class="btn-buy-sm" style="--btn-color:#F59E0B" onclick="addToCart(3,'Full-Stack Dev',19.99)">Buy Now</button>
+                </div>
+              </div>
+            </div>
+
+          </div>
+
+          <!-- Controls -->
+          <button class="carousel-btn carousel-prev" onclick="carouselPrev()">‹</button>
+          <button class="carousel-btn carousel-next" onclick="carouselNext()">›</button>
+          <div class="carousel-dots" style="bottom:-24px">
+            <span class="dot active" onclick="goToSlide(0)"></span>
+            <span class="dot" onclick="goToSlide(1)"></span>
+            <span class="dot" onclick="goToSlide(2)"></span>
+          </div>
+        </div>
+      </div>
+
+    </div>
+  </div>
+</section>
+
+<!-- MARQUEE -->
+<section class="py-6 border-y border-white/5 overflow-hidden">
+  <div class="marquee-wrapper">
+    <div class="marquee-track">
+      <span class="marquee-item">✦ ChatGPT Prompts</span>
+      <span class="marquee-item">✦ Midjourney Art</span>
+      <span class="marquee-item">✦ Claude Templates</span>
+      <span class="marquee-item">✦ Stable Diffusion</span>
+      <span class="marquee-item">✦ DALL·E 3</span>
+      <span class="marquee-item">✦ Gemini Pro</span>
+      <span class="marquee-item">✦ ChatGPT Prompts</span>
+      <span class="marquee-item">✦ Midjourney Art</span>
+      <span class="marquee-item">✦ Claude Templates</span>
+      <span class="marquee-item">✦ Stable Diffusion</span>
+    </div>
+  </div>
+</section>
+
+<!-- CATEGORIES -->
+<section class="py-16 max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+  <div class="text-center mb-10">
+    <div class="section-badge mb-3">Browse by Category</div>
+    <h2 class="section-title">Find Your Perfect Prompt</h2>
+  </div>
+  <div class="grid grid-cols-3 sm:grid-cols-3 lg:grid-cols-6 gap-3">
+    <a href="marketplace.html?cat=chatgpt" class="category-card visible">
+      <div class="category-icon" style="--cat-color:#10B981">🤖</div>
+      <div class="category-name">ChatGPT</div>
+      <div class="category-count">4,200+</div>
+    </a>
+    <a href="marketplace.html?cat=midjourney" class="category-card visible">
+      <div class="category-icon" style="--cat-color:#EC4899">🎨</div>
+      <div class="category-name">Midjourney</div>
+      <div class="category-count">2,800+</div>
+    </a>
+    <a href="marketplace.html?cat=coding" class="category-card visible">
+      <div class="category-icon" style="--cat-color:#6366F1">💻</div>
+      <div class="category-name">Coding</div>
+      <div class="category-count">1,500+</div>
+    </a>
+    <a href="marketplace.html?cat=business" class="category-card visible">
+      <div class="category-icon" style="--cat-color:#F59E0B">💼</div>
+      <div class="category-name">Business</div>
+      <div class="category-count">1,900+</div>
+    </a>
+    <a href="marketplace.html?cat=writing" class="category-card visible">
+      <div class="category-icon" style="--cat-color:#06B6D4">✍️</div>
+      <div class="category-name">Writing</div>
+      <div class="category-count">3,100+</div>
+    </a>
+    <a href="marketplace.html?cat=marketing" class="category-card visible">
+      <div class="category-icon" style="--cat-color:#EF4444">📈</div>
+      <div class="category-name">Marketing</div>
+      <div class="category-count">2,200+</div>
+    </a>
+  </div>
+</section>
+
+<!-- TRENDING -->
+<section class="py-16 relative">
+  <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+    <div class="flex items-center justify-between mb-8">
+      <div>
+        <div class="section-badge mb-2">🔥 Trending Now</div>
+        <h2 class="section-title">Most Popular This Week</h2>
+      </div>
+      <a href="marketplace.html" class="text-sm text-[#6366F1] hidden sm:flex items-center gap-1">View all →</a>
+    </div>
+    <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4" id="trendingGrid"></div>
+  </div>
+</section>
+
+<!-- HOW IT WORKS -->
+<section class="py-16 max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+  <div class="text-center mb-12">
+    <div class="section-badge mb-3">Simple Process</div>
+    <h2 class="section-title">How PromptVault Works</h2>
+  </div>
+  <div class="grid grid-cols-1 sm:grid-cols-3 gap-6">
+    <div class="how-step visible">
+      <div class="how-step-number">01</div>
+      <div class="how-step-icon">🔍</div>
+      <h3 class="how-step-title">Browse & Discover</h3>
+      <p class="how-step-desc">Search 12,000+ prompts by category, AI model, rating or price.</p>
+    </div>
+    <div class="how-step visible">
+      <div class="how-step-number">02</div>
+      <div class="how-step-icon">💳</div>
+      <h3 class="how-step-title">Buy Instantly</h3>
+      <p class="how-step-desc">Pay securely via Stripe or PayPal. Instant delivery to your account.</p>
+    </div>
+    <div class="how-step visible">
+      <div class="how-step-number">03</div>
+      <div class="how-step-icon">🚀</div>
+      <h3 class="how-step-title">Use & Profit</h3>
+      <p class="how-step-desc">Copy, paste & watch AI produce incredible results.</p>
+    </div>
+  </div>
+</section>
+
+<!-- NEWSLETTER -->
+<section class="py-16 border-t border-white/5">
+  <div class="max-w-xl mx-auto px-4 text-center">
+    <div class="section-badge mb-3">📬 Stay Updated</div>
+    <h2 class="font-display font-700 text-2xl sm:text-3xl mb-3">Get Weekly Prompt Drops</h2>
+    <p class="text-slate-400 text-sm mb-6">Top prompts & AI tips — every Tuesday. Free forever.</p>
+    <form class="newsletter-form" onsubmit="subscribeNewsletter(event)">
+      <input type="email" placeholder="your@email.com" class="newsletter-input" required />
+      <button type="submit" class="btn-primary px-5 py-3 rounded-xl font-semibold whitespace-nowrap">Subscribe</button>
+    </form>
+  </div>
+</section>
+
+<!-- FOOTER -->
+<footer class="border-t border-white/5 py-10">
+  <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+    <div class="grid grid-cols-2 sm:grid-cols-4 gap-6 mb-8">
+      <div class="col-span-2 sm:col-span-1">
+        <div class="flex items-center gap-2 mb-3">
+          <div class="w-8 h-8 rounded-xl bg-gradient-to-br from-[#6366F1] to-[#A5B4FC] flex items-center justify-center">
+            <svg class="w-4 h-4 text-white" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 10V3L4 14h7v7l9-11h-7z"/></svg>
+          </div>
+          <span class="font-display font-800 text-lg">Prompt<span class="text-[#6366F1]">Vault</span></span>
+        </div>
+        <p class="text-slate-400 text-xs">The world's best AI prompt marketplace.</p>
+      </div>
+      <div>
+        <h4 class="footer-heading">Marketplace</h4>
+        <ul class="footer-links">
+          <li><a href="marketplace.html">Browse</a></li>
+          <li><a href="marketplace.html?sort=trending">Trending</a></li>
+          <li><a href="marketplace.html?sort=newest">New</a></li>
+        </ul>
+      </div>
+      <div>
+        <h4 class="footer-heading">Sellers</h4>
+        <ul class="footer-links">
+          <li><a href="seller-dashboard.html">Start Selling</a></li>
+          <li><a href="#">Guide</a></li>
+          <li><a href="#">Referrals</a></li>
+        </ul>
+      </div>
+      <div>
+        <h4 class="footer-heading">Company</h4>
+        <ul class="footer-links">
+          <li><a href="#">About</a></li>
+          <li><a href="#">Privacy</a></li>
+          <li><a href="#">Terms</a></li>
+        </ul>
+      </div>
+    </div>
+    <div class="border-t border-white/5 pt-5 flex flex-col sm:flex-row justify-between items-center gap-3">
+      <p class="text-slate-500 text-xs">© 2025 PromptVault. All rights reserved.</p>
+      <p class="text-slate-500 text-xs">🔒 SSL Secured · Stripe & PayPal</p>
+    </div>
+  </div>
+</footer>
+
+<!-- Cart Drawer -->
+<div id="cartDrawer" class="cart-drawer">
+  <div class="cart-header">
+    <h3 class="font-display font-700 text-lg">Your Cart</h3>
+    <button onclick="closeCart()" class="glass-icon-btn w-8 h-8 rounded-lg flex items-center justify-center">✕</button>
+  </div>
+  <div id="cartItems" class="cart-items"></div>
+  <div class="cart-footer" id="cartFooter" style="display:none">
+    <div class="cart-total">
+      <span>Total:</span>
+      <span id="cartTotal" class="text-[#6366F1] font-bold">$0.00</span>
+    </div>
+    <a href="marketplace.html" class="btn-primary w-full text-center py-3 rounded-xl font-semibold block">Checkout →</a>
+  </div>
+</div>
+<div id="cartOverlay" class="fixed inset-0 bg-black/50 z-40 hidden" onclick="closeCart()"></div>
+
+<div id="toast" class="toast hidden"><span id="toastMsg"></span></div>
+
+<script src="js/app.js"></script>
+<script>
+// Trending Data
+const trendingPrompts = [
+  { id:1, title:'Cold Email Generator', category:'ChatGPT · Marketing', price:9.99, rating:4.9, reviews:247, badge:'🔥 Hot', color:'#6366F1' },
+  { id:2, title:'Cinematic Portrait', category:'Midjourney · Art', price:14.99, rating:4.8, reviews:189, badge:'⭐ Top', color:'#10B981' },
+  { id:3, title:'Full-Stack Dev', category:'Claude · Coding', price:19.99, rating:4.7, reviews:94, badge:'🆕 New', color:'#F59E0B' },
+  { id:4, title:'Twitter Thread Writer', category:'ChatGPT · Content', price:7.99, rating:5.0, reviews:312, badge:'💎 Premium', color:'#EC4899' },
+];
+
+function renderTrending() {
+  const grid = document.getElementById('trendingGrid');
+  grid.innerHTML = trendingPrompts.map(p => `
+    <div class="prompt-card visible" onclick="window.location='prompt-detail.html?id=${p.id}'">
+      <div class="prompt-card-badge" style="background:${p.color}22;color:${p.color}">${p.badge}</div>
+      <div class="prompt-card-category">${p.category}</div>
+      <h3 class="prompt-card-title">${p.title}</h3>
+      <div class="prompt-card-footer">
+        <div class="prompt-card-price">$${p.price}</div>
+        <div class="flex items-center gap-1">
+          <span class="text-yellow-400 text-sm">★</span>
+          <span class="text-sm">${p.rating}</span>
+        </div>
+      </div>
+      <button class="prompt-card-buy" onclick="event.stopPropagation();addToCart(${p.id},'${p.title}',${p.price})" style="--btn-accent:${p.color}">
+        Add to Cart
+      </button>
+    </div>
+  `).join('');
+}
+
+// Counter
+function animateCounters() {
+  document.querySelectorAll('[data-count]').forEach(el => {
+    const target = parseInt(el.dataset.count);
+    let current = 0;
+    const step = target / 60;
+    const timer = setInterval(() => {
+      current = Math.min(current + step, target);
+      el.textContent = Math.floor(current).toLocaleString();
+      if (current >= target) clearInterval(timer);
+    }, 16);
+  });
+}
+
+// Carousel
+let currentSlide = 0;
+const totalSlides = 3;
+
+function goToSlide(n) {
+  document.querySelectorAll('.carousel-slide').forEach((s,i) => s.classList.toggle('active', i===n));
+  document.querySelectorAll('.dot').forEach((d,i) => d.classList.toggle('active', i===n));
+  currentSlide = n;
+}
+function carouselNext() { goToSlide((currentSlide+1)%totalSlides); }
+function carouselPrev() { goToSlide((currentSlide-1+totalSlides)%totalSlides); }
+setInterval(carouselNext, 4000);
+
+// Cart
+function openCart() {
+  document.getElementById('cartDrawer').classList.add('open');
+  document.getElementById('cartOverlay').classList.remove('hidden');
+}
+function closeCart() {
+  document.getElementById('cartDrawer').classList.remove('open');
+  document.getElementById('cartOverlay').classList.add('hidden');
+}
+
+// Newsletter
+function subscribeNewsletter(e) {
+  e.preventDefault();
+  showToast('🎉 Subscribed!');
+  e.target.reset();
+}
+
+// Lang
+const i18n = {
+  en: { hero1:'Unlock the Best', hero2:'AI Prompts', hero3:'on Earth' },
+  bn: { hero1:'সেরা', hero2:'AI প্রম্পট', hero3:'আনলক করুন' }
+};
+let lang = 'en';
+function toggleLang() {
+  lang = lang === 'en' ? 'bn' : 'en';
+  showToast(lang === 'bn' ? 'বাংলায় স্বাগতম! 🇧🇩' : 'Switched to English 🇺🇸');
+}
+
+// Init
+document.addEventListener('DOMContentLoaded', () => {
+  renderTrending();
+  setTimeout(animateCounters, 500);
+  window.addEventListener('scroll', () => {
+    document.getElementById('navbar').classList.toggle('scrolled', window.scrollY > 50);
+  });
+});
+</script>
+</body>
+</html>
